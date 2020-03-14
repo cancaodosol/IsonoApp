@@ -1,0 +1,85 @@
+﻿@page
+@model IssWebRazorApp.Playbooks.CreateModel
+@using IssWebRazorApp.Models;
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>PlaybookData</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="PlaybookData.PlaybookId" class="control-label"></label>
+                <input asp-for="PlaybookData.PlaybookId" class="form-control" />
+                <span asp-validation-for="PlaybookData.PlaybookId" class="text-danger"></span>
+            </div>
+            <!--<div class="form-group">
+            <label asp-for="PlaybookData.OffenseFormationId" class="control-label"></label>
+            <input asp-for="PlaybookData.OffenseFormationId" class="form-control" />
+            <span asp-validation-for="PlaybookData.OffenseFormationId" class="text-danger"></span>
+            </div>-->
+            <!--<div class="form-group">
+            <label asp-for="PlaybookData.DefenceFormationId" class="control-label"></label>
+            <input asp-for="PlaybookData.DefenceFormationId" class="form-control" />
+            <span asp-validation-for="PlaybookData.DefenceFormationId" class="text-danger"></span>
+            </div>-->
+            <div class="form-group">
+                <label asp-for="PlaybookData.PlayFullName" class="control-label"></label>
+                <input asp-for="PlaybookData.PlayFullName" class="form-control" />
+                <span asp-validation-for="PlaybookData.PlayFullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlaybookData.PlayShortName" class="control-label"></label>
+                <input asp-for="PlaybookData.PlayShortName" class="form-control" />
+                <span asp-validation-for="PlaybookData.PlayShortName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlaybookData.PlayCallName" class="control-label"></label>
+                <input asp-for="PlaybookData.PlayCallName" class="form-control" />
+                <span asp-validation-for="PlaybookData.PlayCallName" class="text-danger"></span>
+            </div>
+            <!--<div class="form-group">
+            <label asp-for="PlaybookData.Category" class="control-label"></label>
+            <input asp-for="PlaybookData.Category" class="form-control" />
+            <span asp-validation-for="PlaybookData.Category" class="text-danger"></span>
+            </div>-->
+            <div class="form-group">
+                <label asp-for="PlaybookData.IntroduceStatus" class="control-label"></label>
+                <select asp-for="PlaybookData.IntroduceStatus" asp-items="Html.GetEnumSelectList<InstollStatus>()" class="form-control"></select>
+                <span asp-validation-for="PlaybookData.IntroduceStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlayDesignFile" class="control-label"></label>
+                <input asp-for="PlayDesignFile" type="file" class="form-control" />
+                <span asp-validation-for="PlayDesignFile" class="text-danger"></span>
+            </div>
+            <!--<div class="form-group">
+                <label asp-for="PlaybookData.PlayDesignUrl" class="control-label"></label>
+                <input asp-for="PlaybookData.PlayDesignUrl" class="form-control" />
+                <span asp-validation-for="PlaybookData.PlayDesignUrl" class="text-danger"></span>
+            </div>-->
+            <div class="form-group">
+                <label asp-for="PlaybookData.Context" class="control-label"></label>
+                <textarea asp-for="PlaybookData.Context" class="form-control"></textarea>
+                <span asp-validation-for="PlaybookData.Context" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+    <div>
+        <a asp-page="Index">Back to List</a>
+    </div>
+</div>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }
