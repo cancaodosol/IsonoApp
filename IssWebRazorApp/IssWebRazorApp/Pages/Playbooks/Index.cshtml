@@ -125,9 +125,6 @@
                     </td>
                 -->
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.PlaybookSystemId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.PlaybookSystemId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.PlaybookSystemId">Delete</a>
                 </td>
             </tr>
             <tr>
@@ -145,14 +142,17 @@
                 </td>
                 <td colspan="2">
                     ■Context<br>
-                    @Html.DisplayFor(modelItem => item.Context)
+                            <pre>@Html.DisplayFor(modelItem => item.Context)</pre>
                 </td>
             </tr>
             <tr>
                 <td></td>
-                <td colspan="5">
+                <td colspan="3">
+                    <a asp-page="./Edit" asp-route-id="@item.PlaybookSystemId">Edit</a>  | 
+                    <a asp-page="./Details" asp-route-id="@item.PlaybookSystemId">Details</a><!-- |
+                    <a asp-page="./Delete" asp-route-id="@item.PlaybookSystemId">Delete</a>-->
                 </td>
-                <td>
+                <td colspan="3">
                     Last Update : @item.LastUpdateDate
                 </td>
             </tr>

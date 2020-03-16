@@ -8609,11 +8609,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Hideyuki MATSUI\\source\\repos\\IssWebRazorApp\\IssWebRazorApp\\IssWebRazorApp.csproj",
+      "projectUniqueName": "C:\\Users\\Hideyuki MATSUI\\source\\repos\\IssWebApp\\IsonoApp\\IssWebRazorApp\\IssWebRazorApp\\IssWebRazorApp.csproj",
       "projectName": "IssWebRazorApp",
-      "projectPath": "C:\\Users\\Hideyuki MATSUI\\source\\repos\\IssWebRazorApp\\IssWebRazorApp\\IssWebRazorApp.csproj",
+      "projectPath": "C:\\Users\\Hideyuki MATSUI\\source\\repos\\IssWebApp\\IsonoApp\\IssWebRazorApp\\IssWebRazorApp\\IssWebRazorApp.csproj",
       "packagesPath": "C:\\Users\\Hideyuki MATSUI\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Hideyuki MATSUI\\source\\repos\\IssWebRazorApp\\IssWebRazorApp\\obj\\",
+      "outputPath": "C:\\Users\\Hideyuki MATSUI\\source\\repos\\IssWebApp\\IsonoApp\\IssWebRazorApp\\IssWebRazorApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
