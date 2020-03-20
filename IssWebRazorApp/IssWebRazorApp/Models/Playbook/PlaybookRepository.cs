@@ -31,6 +31,27 @@ namespace IssWebRazorApp.Models
             accesskey = _awsconfig.S3AccessKey;
             secretkey = _awsconfig.S3SecretKey;
         }
+
+        public IList<Playbook> FindAll() 
+        {
+            IList<PlaybookData> datas = _context.PlaybookData.OrderBy(m => m.Category).ToList();
+            IList<Category> categories = GetCategoryList("Offense");
+            IList<Playbook> playbooks = new List<Playbook>();
+
+            foreach (var data in datas) 
+            {
+                playbooks.Add(data.ToModel(categories));
+            }
+
+            return playbooks;
+        }
+
+        /// <summary>
+        /// プレイブックの新規登録
+        /// </summary>
+        /// <remarks>プレイデザイン画像があった場合、AWS S3に保存される。</remarks>
+        /// <param name="playbook"></param>
+        /// <param name="bucketPath"></param>
         public async void Add(Playbook playbook, string bucketPath)
         {
             var data = playbook.ToData();
@@ -96,7 +117,7 @@ namespace IssWebRazorApp.Models
         }
 
         public IList<Category> GetCategoryList(String session){
-            IList<CategoryData> data = _context.CategoryData.Where(m => m.Session.Equals(session)).ToList();
+            IList<CategoryData> data = _context.CategoryData.Where(m => m.Session.Equals(session)).OrderBy(m => m.Code).ToList();
             IList<Category> categories = new List<Category>();
 
             foreach (var item in data) 

@@ -6,23 +6,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IssWebRazorApp.Data;
+using IssWebRazorApp.Models;
 
 namespace IssWebRazorApp.Playbooks
 {
     public class IndexModel : PageModel
     {
-        private readonly IssWebRazorApp.Data.IssWebRazorAppContext _context;
+        private readonly IPlaybookRepository _playbookRepository;
 
-        public IndexModel(IssWebRazorApp.Data.IssWebRazorAppContext context)
+        public IndexModel(IPlaybookRepository playbookRepository)
         {
-            _context = context;
+            _playbookRepository = playbookRepository;
         }
 
-        public IList<PlaybookData> PlaybookData { get;set; }
+        public IList<Playbook> Playbooks { get;set; }
 
         public async Task OnGetAsync()
         {
-            PlaybookData = await _context.PlaybookData.ToListAsync();
+            Playbooks = _playbookRepository.FindAll();
         }
     }
 }

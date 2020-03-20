@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,11 +12,12 @@ namespace IssWebRazorApp.Models
 {
     public class Playbook
     {
-        private readonly IWebHostEnvironment _environment;
         public int PlaybookSystemId { get; private set; }
         public int PlaybookId { get; private set; }
         public PlayName PlayName { get; private set; }
         public Category Category { get; private set; }
+
+        [Display(Name = "Status")]
         public string InstallStatus { get; private set; }
         public PlayFormation OffenseFormation { get; private set; }
         public PlayFormation DefenceFormation { get; private set; }
@@ -26,20 +28,19 @@ namespace IssWebRazorApp.Models
         public User LastUpdateUser { get; private set; }
         public DateTime LastUpdateDate { get; private set; }
 
-        public Playbook(IWebHostEnvironment env)
+        public Playbook(int systemId) 
         {
-            _environment = env;
+            PlaybookSystemId = systemId;
         }
-
         //TODO : Updateメソッドをどこにセットしようか悩み中。最終更新日・ユーザーを取得したいがchangeメソッドの中に毎回書くのは嫌だから。
         public Playbook(int id, Category category, PlayName playName, string installStatus, IFormFile file, Context context, User createUser)
         {
-            changePlaybookId(id);
-            changeCategory(category);
-            changePlayName(playName);
-            changeContext(context);
-            changInstallStatus(installStatus);
-            changePlayDesign(file);
+            ChangePlaybookId(id);
+            ChangeCategory(category);
+            ChangePlayName(playName);
+            ChangeContext(context);
+            ChangeInstallStatus(installStatus);
+            ChangePlayDesign(file);
             CreateUser = createUser;
             CreateDate = DateTime.Now;
             LastUpdateUser = createUser;
@@ -51,32 +52,48 @@ namespace IssWebRazorApp.Models
         {
         }
 
-        public void changePlaybookId(int id)
+        public void ChangePlaybookId(int id)
         {
             PlaybookId = id;
         }
 
-        public void changeCategory(Category category) 
+        public void ChangeCategory(Category category) 
         {
             Category = category;
         }
 
-        public void changePlayName(PlayName playName)
+        public void ChangePlayName(PlayName playName)
         {
             PlayName = playName;
         }
-        public void changInstallStatus(string installStatus)
+        public void ChangeInstallStatus(string installStatus)
         {
             InstallStatus = installStatus;
         }
-        public void changePlayDesign(IFormFile file)
+        public void ChangePlayDesign(IFormFile file)
         {
-            PlayDesign = new PlayDesign(file, PlayName);
+            ChangePlayDesign(new PlayDesign(file, PlayName));
+        }
+        public void ChangePlayDesign(PlayDesign playDesign)
+        {
+            PlayDesign = playDesign;
         }
 
-        public void changeContext(Context context)
+        public void ChangeContext(Context context)
         {
             Context = context;
+        }
+
+        public void ChangeCreateUser(User createUser , DateTime createDate) 
+        {
+            CreateUser = createUser;
+            CreateDate = createDate;
+        }
+
+        public void ChangeLastUpdateUser(User lastUpdateUser, DateTime lastUpdateDate) 
+        {
+            LastUpdateUser = lastUpdateUser;
+            LastUpdateDate = lastUpdateDate;
         }
 
         public PlaybookData ToData()

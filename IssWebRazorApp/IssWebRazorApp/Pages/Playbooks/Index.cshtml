@@ -1,6 +1,6 @@
 ﻿@page
 @model IssWebRazorApp.Playbooks.IndexModel
-@using IssWebRazorApp.Models;
+@using IssWebRazorApp.Models
 
 @{
     ViewData["Title"] = "Index";
@@ -16,144 +16,73 @@
         <tr>
             <th></th>
             <th>
-                @Html.DisplayNameFor(model => model.PlaybookData[0].IntroduceStatus)
-            </th>
-            <!--
-    <th>
-        @Html.DisplayNameFor(model => model.PlaybookData[0].PlaybookId)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.PlaybookData[0].OffenseFormationId)
-    </th>
-    <th>
-        @Html.DisplayNameFor(model => model.PlaybookData[0].DefenceFormationId)
-    </th>
-    -->
-            <th>
-                @Html.DisplayNameFor(model => model.PlaybookData[0].PlayFullName)
+                @Html.DisplayNameFor(model => model.Playbooks[0].InstallStatus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlaybookData[0].PlayShortName)
+                @Html.DisplayNameFor(model => model.Playbooks[0].Category)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PlaybookData[0].PlayCallName)
+                @Html.DisplayNameFor(model => model.Playbooks[0].PlayName)
             </th>
-            <!--
-                <th>
-                    @Html.DisplayNameFor(model => model.PlaybookData[0].Category)
-                </th>
-    -->
-            <!--
-                <th>
-                    @Html.DisplayNameFor(model => model.PlaybookData[0].PlayDesignUrl)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PlaybookData[0].Context)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PlaybookData[0].CreateUserId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PlaybookData[0].CreateDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PlaybookData[0].LastUpdateUserId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PlaybookData[0].LastUpdateDate)
-                </th>
-    -->
+            <th>
+                @Html.DisplayNameFor(model => model.Playbooks[0].PlayName.ShortName)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.PlaybookData)
+        @foreach (var item in Model.Playbooks)
         {
-        <tr>
-            <td>
-                <img src="~/images/icon_down _arrow_s.png" />
-            </td>
-            <td>
-                @if (String.IsNullOrEmpty(item.IntroduceStatus) == false)
-                {
-                    @InstallSatusService.GetName(item.IntroduceStatus);
-                }
-            </td>
-            <!--
+            <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PlaybookId)
+                    <img src="~/images/icon_down _arrow_s.png" />
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OffenseFormationId)
+                    @if (String.IsNullOrEmpty(item.InstallStatus) == false)
+                    {
+                        @InstallSatusService.GetName(item.InstallStatus);
+                    }
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DefenceFormationId)
+                    @Html.DisplayFor(modelItem => item.Category.Name)
                 </td>
-            -->
-            <td>
-                @Html.DisplayFor(modelItem => item.PlayFullName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlayShortName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PlayCallName)
-            </td>
-            <!--
-    <td>
-        @Html.DisplayFor(modelItem => item.Category)
-    </td>
-    -->
-            <!--
-        <td>
-            <img src="@item.PlayDesignUrl"/>
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Context)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateUserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastUpdateUserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastUpdateDate)
-        </td>
-    -->
-            <td>
-            </td>
-        </tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlayName.FullName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PlayName.ShortName)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.PlaybookSystemId">Edit</a>  |
+                    <a asp-page="./Details" asp-route-id="@item.PlaybookSystemId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.PlaybookSystemId">Delete</a>
+                </td>
+            </tr>
             <tr>
                 <td></td>
                 <td colspan="3">
-                    @if (String.IsNullOrEmpty(item.PlayDesignUrl))
+                    @if (String.IsNullOrEmpty(item.PlayDesign.Url))
                     {
                         <img src="~/images/no_image_01.png" width="460">
 
                     }
                     else
                     {
-                        <img src="@item.PlayDesignUrl" width="460">
+                        <img src="@item.PlayDesign.Url" width="460">
                     }
                 </td>
                 <td colspan="2">
                     ■Context<br>
-                            <pre>@Html.DisplayFor(modelItem => item.Context)</pre>
+                    <pre>@Html.DisplayFor(modelItem => item.Context.Text)</pre>
                 </td>
             </tr>
             <tr>
                 <td></td>
                 <td colspan="3">
-                    <a asp-page="./Edit" asp-route-id="@item.PlaybookSystemId">Edit</a>  | 
-                    <a asp-page="./Details" asp-route-id="@item.PlaybookSystemId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.PlaybookSystemId">Delete</a>
+
                 </td>
-                <td colspan="3">
-                    Last Update : @item.LastUpdateDate
+                <td colspan="3" align="right">
+                    Created: @item.CreateDate / Last Update : @item.LastUpdateDate
                 </td>
             </tr>
         }

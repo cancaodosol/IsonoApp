@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IssWebRazorApp.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,7 +21,6 @@ namespace IssWebRazorApp.Data
         public string PlayShortName { get; set; }
         public string PlayCallName { get; set; }
         public string Category { get; set; }
-        public CategoryData CategoryData{ get; set; }
         [Display(Name ="Status")]
         public string IntroduceStatus { get; set; }
         public string PlayDesignUrl { get; set; }
@@ -31,5 +31,22 @@ namespace IssWebRazorApp.Data
         public int LastUpdateUserId { get; set; }
         [DataType(DataType.Date)]
         public DateTime LastUpdateDate { get; set; }
+
+        public Playbook ToModel(IList<Category> categories) 
+        {
+            Playbook playbook = new Playbook(PlaybookSystemId);
+
+            playbook.ChangePlaybookId(PlaybookId);
+            Category category = categories.FirstOrDefault(m => m.Code.Equals(Category));
+            playbook.ChangeCategory(category);
+            playbook.ChangePlayName(new PlayName(PlayFullName,PlayShortName,PlayCallName));
+            playbook.ChangeContext(new Context(Context));
+            playbook.ChangeInstallStatus(IntroduceStatus);
+            playbook.ChangePlayDesign(new PlayDesign(PlayDesignUrl));
+            playbook.ChangeCreateUser(new User(CreateUserId,""), CreateDate);
+            playbook.ChangeLastUpdateUser(new User(CreateUserId,""),LastUpdateDate);
+
+            return playbook;
+        }
     }
 }

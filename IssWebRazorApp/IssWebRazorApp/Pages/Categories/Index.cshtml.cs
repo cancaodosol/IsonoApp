@@ -22,7 +22,7 @@ namespace IssWebRazorApp.Categories
 
         public async Task OnGetAsync()
         {
-            CategoryData = await _context.CategoryData.ToListAsync();
+            CategoryData = await _context.CategoryData.OrderBy(m => m.Code).ToListAsync();
         }
     }
 }
