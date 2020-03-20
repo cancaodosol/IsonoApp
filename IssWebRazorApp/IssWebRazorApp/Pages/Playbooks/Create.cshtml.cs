@@ -30,6 +30,8 @@ namespace IssWebRazorApp.Playbooks
         public PlaybookData PlaybookData { get; set; }
         public IFormFile PlayDesignFile { get; set; }
 
+        public string message;
+
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
@@ -38,9 +40,16 @@ namespace IssWebRazorApp.Playbooks
             {
                 return Page();
             }
-            var createUser = new User(71,"hide");
-            var playbook = new Playbook(PlaybookData, PlayDesignFile,createUser);
-            _playbookRepository.Add(playbook);            
+            try
+            {
+                var createUser = new User(71, "hide");
+                var playbook = new Playbook(PlaybookData, PlayDesignFile, createUser);
+                _playbookRepository.Add(playbook, "Offense");
+            }
+            catch (Exception ex) 
+            {
+                message = ex.Message;
+            }
 
             return RedirectToPage("./Index");
         }

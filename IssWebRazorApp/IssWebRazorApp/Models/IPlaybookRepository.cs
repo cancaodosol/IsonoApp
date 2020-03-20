@@ -8,6 +8,6 @@ namespace IssWebRazorApp.Data
 {
     public interface IPlaybookRepository
     {
-        public void Add(Playbook playbook);
+        public void Add(Playbook playbook,string bucketPath);
     }
 }
