@@ -20,6 +20,7 @@ namespace IssWebRazorApp.Data
         public string PlayShortName { get; set; }
         public string PlayCallName { get; set; }
         public string Category { get; set; }
+        public CategoryData CategoryData{ get; set; }
         [Display(Name ="Status")]
         public string IntroduceStatus { get; set; }
         public string PlayDesignUrl { get; set; }

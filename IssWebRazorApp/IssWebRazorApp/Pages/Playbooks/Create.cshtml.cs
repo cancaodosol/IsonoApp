@@ -15,10 +15,13 @@ namespace IssWebRazorApp.Playbooks
     public class CreateModel : PageModel
     {
         private readonly IPlaybookRepository _playbookRepository;
+        public SelectList CaterogyList;
 
         public CreateModel(IPlaybookRepository playbookRepository)
         {
             _playbookRepository = playbookRepository;
+            IList<Category> categories = _playbookRepository.GetCategoryList("Offense");
+            CaterogyList = new SelectList(categories,"Code","Name");
         }
 
         public IActionResult OnGet()
@@ -30,7 +33,7 @@ namespace IssWebRazorApp.Playbooks
         public PlaybookData PlaybookData { get; set; }
         public IFormFile PlayDesignFile { get; set; }
 
-        public string message;
+        public string Message { get; set; }
 
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see https://aka.ms/RazorPagesCRUD.
@@ -48,7 +51,8 @@ namespace IssWebRazorApp.Playbooks
             }
             catch (Exception ex) 
             {
-                message = ex.Message;
+                Message = ex.Message;
+                return Page();
             }
 
             return RedirectToPage("./Index");

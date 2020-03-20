@@ -20,7 +20,7 @@ namespace IssWebRazorApp.Models
         private readonly IWebHostEnvironment _environment;
         private readonly AmazonWebServiceConfig _awsconfig;
 
-        public PlaybookRepository(IssWebRazorApp.Data.IssWebRazorAppContext context, IWebHostEnvironment env ,IOptions<AmazonWebServiceConfig> awsconfig) 
+        public PlaybookRepository(IssWebRazorApp.Data.IssWebRazorAppContext context, IWebHostEnvironment env, IOptions<AmazonWebServiceConfig> awsconfig)
         {
             _context = context;
             _environment = env;
@@ -31,13 +31,13 @@ namespace IssWebRazorApp.Models
             accesskey = _awsconfig.S3AccessKey;
             secretkey = _awsconfig.S3SecretKey;
         }
-        public async void Add(Playbook playbook,string bucketPath) 
+        public async void Add(Playbook playbook, string bucketPath)
         {
             var data = playbook.ToData();
 
             try
             {
-                if (playbook.PlayDesign.File.Length > 0)
+                if (playbook.PlayDesign.File != null)
                 {
                     UploadFileToS3Bucket(playbook.PlayDesign, bucketPath);
                     data.PlayDesignUrl = s3Directory + bucketPath + "/" + playbook.PlayDesign.FileName;
@@ -59,24 +59,24 @@ namespace IssWebRazorApp.Models
         private readonly string accesskey;
         private readonly string secretkey;
 
-        private void UploadFileToS3Bucket(PlayDesign playDesign,string buckectPath) 
+        private void UploadFileToS3Bucket(PlayDesign playDesign, string buckectPath)
         {
             var file = playDesign.File;
-            var s3Cliant = new AmazonS3Client(accesskey,secretkey,bucketRegin);
+            var s3Cliant = new AmazonS3Client(accesskey, secretkey, bucketRegin);
             var fileTransferUtility = new TransferUtility(s3Cliant);
             try
             {
                 if (file.Length > 0)
                 {
                     var filePath = Path.Combine(_environment.ContentRootPath, "Upload", playDesign.FileName);
-                    using (var fileStream = new FileStream(filePath,FileMode.Create)) 
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         file.CopyTo(fileStream);
                     }
 
                     var fileTransferUtilityRequest = new TransferUtilityUploadRequest
                     {
-                        BucketName = bucketName +"/" + buckectPath,
+                        BucketName = bucketName + "/" + buckectPath,
                         FilePath = filePath,
                         StorageClass = S3StorageClass.Standard,
                         PartSize = 6291456,// 6 MB
@@ -93,6 +93,18 @@ namespace IssWebRazorApp.Models
             {
                 Console.WriteLine(amazonS3Exception);
             }
+        }
+
+        public IList<Category> GetCategoryList(String session){
+            IList<CategoryData> data = _context.CategoryData.Where(m => m.Session.Equals(session)).ToList();
+            IList<Category> categories = new List<Category>();
+
+            foreach (var item in data) 
+            {
+                categories.Add(new Category(item.Code,item.Session,item.Name));
+            }
+
+            return categories;
         }
     }
 }

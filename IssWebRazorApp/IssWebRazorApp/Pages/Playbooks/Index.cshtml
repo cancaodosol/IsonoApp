@@ -18,17 +18,17 @@
             <th>
                 @Html.DisplayNameFor(model => model.PlaybookData[0].IntroduceStatus)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PlaybookData[0].PlaybookId)
-            </th>
             <!--
-            <th>
-                @Html.DisplayNameFor(model => model.PlaybookData[0].OffenseFormationId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PlaybookData[0].DefenceFormationId)
-            </th>
-            -->
+    <th>
+        @Html.DisplayNameFor(model => model.PlaybookData[0].PlaybookId)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.PlaybookData[0].OffenseFormationId)
+    </th>
+    <th>
+        @Html.DisplayNameFor(model => model.PlaybookData[0].DefenceFormationId)
+    </th>
+    -->
             <th>
                 @Html.DisplayNameFor(model => model.PlaybookData[0].PlayFullName)
             </th>
@@ -39,97 +39,97 @@
                 @Html.DisplayNameFor(model => model.PlaybookData[0].PlayCallName)
             </th>
             <!--
-                        <th>
-                            @Html.DisplayNameFor(model => model.PlaybookData[0].Category)
-                        </th>
-            -->
+                <th>
+                    @Html.DisplayNameFor(model => model.PlaybookData[0].Category)
+                </th>
+    -->
             <!--
-                        <th>
-                            @Html.DisplayNameFor(model => model.PlaybookData[0].PlayDesignUrl)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PlaybookData[0].Context)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PlaybookData[0].CreateUserId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PlaybookData[0].CreateDate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PlaybookData[0].LastUpdateUserId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PlaybookData[0].LastUpdateDate)
-                        </th>
-            -->
+                <th>
+                    @Html.DisplayNameFor(model => model.PlaybookData[0].PlayDesignUrl)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlaybookData[0].Context)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlaybookData[0].CreateUserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlaybookData[0].CreateDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlaybookData[0].LastUpdateUserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlaybookData[0].LastUpdateDate)
+                </th>
+    -->
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.PlaybookData)
         {
-            <tr>
-                <td>
-                    <img src="~/images/icon_down _arrow_s.png" />
-                </td>
-                <td>
-                    @if (String.IsNullOrEmpty(item.IntroduceStatus) == false)
-                    {
-                        @Enum.GetName(typeof(InstollStatus),Int32.Parse(item.IntroduceStatus))
-                    }
-                </td>
+        <tr>
+            <td>
+                <img src="~/images/icon_down _arrow_s.png" />
+            </td>
+            <td>
+                @if (String.IsNullOrEmpty(item.IntroduceStatus) == false)
+                {
+                    @InstallSatusService.GetName(item.IntroduceStatus);
+                }
+            </td>
+            <!--
                 <td>
                     @Html.DisplayFor(modelItem => item.PlaybookId)
                 </td>
-                <!--
-                            <td>
-                                @Html.DisplayFor(modelItem => item.OffenseFormationId)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DefenceFormationId)
-                            </td>
-                -->
                 <td>
-                    @Html.DisplayFor(modelItem => item.PlayFullName)
+                    @Html.DisplayFor(modelItem => item.OffenseFormationId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PlayShortName)
+                    @Html.DisplayFor(modelItem => item.DefenceFormationId)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PlayCallName)
-                </td>
-                <!--
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                -->
-                <!--
-                    <td>
-                        <img src="@item.PlayDesignUrl"/>
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Context)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreateUserId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreateDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastUpdateUserId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastUpdateDate)
-                    </td>
-                -->
-                <td>
-                </td>
-            </tr>
+            -->
+            <td>
+                @Html.DisplayFor(modelItem => item.PlayFullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlayShortName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlayCallName)
+            </td>
+            <!--
+    <td>
+        @Html.DisplayFor(modelItem => item.Category)
+    </td>
+    -->
+            <!--
+        <td>
+            <img src="@item.PlayDesignUrl"/>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Context)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreateDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastUpdateUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastUpdateDate)
+        </td>
+    -->
+            <td>
+            </td>
+        </tr>
             <tr>
                 <td></td>
-                <td colspan="4">
+                <td colspan="3">
                     @if (String.IsNullOrEmpty(item.PlayDesignUrl))
                     {
                         <img src="~/images/no_image_01.png" width="460">

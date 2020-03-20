@@ -15,5 +15,6 @@ namespace IssWebRazorApp.Data
         {
         }
         public DbSet<IssWebRazorApp.Data.PlaybookData> PlaybookData { get; set; }
+        public DbSet<IssWebRazorApp.Data.CategoryData> CategoryData { get; set; }
     }
 }
