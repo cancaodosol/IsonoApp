@@ -1,7 +1,9 @@
 ﻿using IssWebRazorApp.Data;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +11,7 @@ namespace IssWebRazorApp.Models
 {
     public class Playbook
     {
+        private readonly IWebHostEnvironment _environment;
         public int PlaybookSystemId { get; private set; }
         public int PlaybookId { get; private set; }
         public PlayName PlayName { get; private set; }
@@ -23,16 +26,19 @@ namespace IssWebRazorApp.Models
         public User LastUpdateUser { get; private set; }
         public DateTime LastUpdateDate { get; private set; }
 
-        public Playbook(){ }
+        public Playbook(IWebHostEnvironment env)
+        {
+            _environment = env;
+        }
 
         //TODO : Updateメソッドをどこにセットしようか悩み中。最終更新日・ユーザーを取得したいがchangeメソッドの中に毎回書くのは嫌だから。
-        public Playbook(int id, PlayName playName, string instollStatus, PlayDesign playDesign, Context context, User createUser)
+        public Playbook(int id, PlayName playName, string instollStatus, IFormFile file, Context context, User createUser)
         {
             changePlaybookId(id);
             changePlayName(playName);
             changeContext(context);
             changInstollStatus(instollStatus);
-            changePlayDesign(playDesign);
+            changePlayDesign(file);
             CreateUser = createUser;
             CreateDate = DateTime.Now;
             LastUpdateUser = createUser;
@@ -40,7 +46,7 @@ namespace IssWebRazorApp.Models
         }
 
         public Playbook(PlaybookData data,IFormFile file,User createUser)
-            :this(data.PlaybookId, new PlayName(data.PlayFullName, data.PlayShortName, data.PlayCallName),data.IntroduceStatus ,new PlayDesign(file), new Context(data.Context), createUser)
+            :this(data.PlaybookId, new PlayName(data.PlayFullName, data.PlayShortName, data.PlayCallName),data.IntroduceStatus ,file, new Context(data.Context), createUser)
         {
         }
 
@@ -58,9 +64,9 @@ namespace IssWebRazorApp.Models
             InstollStatus = instollStatus;
         }
 
-        public void changePlayDesign(PlayDesign playDesign)
+        public void changePlayDesign(IFormFile file)
         {
-            PlayDesign = playDesign;
+            PlayDesign = new PlayDesign(file,PlayName);
         }
 
         public void changeContext(Context context)
@@ -95,12 +101,65 @@ namespace IssWebRazorApp.Models
     public class PlayDesign
     {
         public string Url { get; set; }
+        public string FileName { get; set; }
+
         public IFormFile File { get; set; }
 
-        public PlayDesign(IFormFile file) 
+        public PlayDesign(IFormFile file, PlayName playName) 
         {
+            if (file.Length == 0) return;
+
+            var fileExtension = Path.GetExtension(file.FileName).ToLower();
+
+
+            if (CanUseFileExtension(fileExtension)) 
+            {
+                File = null;
+                return;
+            }
+
+            FileName = CreateFileName(playName,fileExtension);
             File = file;
         }
+        /// <summary>
+        /// プレイブックデザイン画像に使用可能なファイル拡張子か判別する。
+        /// </summary>
+        /// <param name="fileExtension"></param>
+        /// <returns></returns>
+        private bool CanUseFileExtension(string fileExtension)
+        {
+            var canUseFileExtension = new string[] { ".jpeg", "jpg", "png" };
+            var result = false;
+
+            foreach (var item in canUseFileExtension) 
+            {
+                if (fileExtension.Equals(item)) 
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// プレイブックデザイン画像の保存ファイル名を作成する。
+        /// </summary>
+        /// <param name="playName"></param>
+        /// <param name="fileExtension"></param>
+        /// <returns></returns>
+        private string CreateFileName(PlayName playName,string fileExtension) 
+        {
+            var cantUseChars = Path.GetInvalidFileNameChars();
+            Array.Resize(ref cantUseChars,cantUseChars.Length + 1);
+            cantUseChars[cantUseChars.Length - 1] = ' ';
+            var playNameforFileName = string.Concat(playName.ShortName.Select(c => cantUseChars.Contains(c) ? '_' : c));            
+            var sysDate = DateTime.Now.ToString("yyyyMMddHHmmss");
+
+            return sysDate + "_" + playNameforFileName + fileExtension;
+        }
+
         public PlayDesign(string url)
         {
             Url = url;

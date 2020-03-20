@@ -31,7 +31,8 @@ namespace IssWebRazorApp.Models
             {
                 if (playbook.PlayDesign.File.Length > 0)
                 {
-                    UploadFileToS3Bucket(playbook.PlayDesign.File, bucketPath);
+                    UploadFileToS3Bucket(playbook.PlayDesign, bucketPath);
+                    data.PlayDesignUrl = s3Directory + bucketPath + "/" + playbook.PlayDesign.FileName;
                 }
                 _context.PlaybookData.Add(data);
                 await _context.SaveChangesAsync();
@@ -50,16 +51,16 @@ namespace IssWebRazorApp.Models
         private static readonly string accesskey = "AKIAQI24TSMT2CMJFLVM";
         private static readonly string secretkey = "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";
 
-
-        private void UploadFileToS3Bucket(IFormFile file,string buckectPath) 
+        private void UploadFileToS3Bucket(PlayDesign playDesign,string buckectPath) 
         {
+            var file = playDesign.File;
             var s3Cliant = new AmazonS3Client(accesskey,secretkey,bucketRegin);
             var fileTransferUtility = new TransferUtility(s3Cliant);
             try
             {
                 if (file.Length > 0)
                 {
-                    var filePath = Path.Combine(_environment.ContentRootPath, "Upload", file.Name);
+                    var filePath = Path.Combine(_environment.ContentRootPath, "Upload", playDesign.FileName);
                     using (var fileStream = new FileStream(filePath,FileMode.Create)) 
                     {
                         file.CopyTo(fileStream);
