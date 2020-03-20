@@ -4,6 +4,7 @@ using Amazon.S3.Transfer;
 using IssWebRazorApp.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -17,11 +18,18 @@ namespace IssWebRazorApp.Models
     {
         private readonly IssWebRazorApp.Data.IssWebRazorAppContext _context;
         private readonly IWebHostEnvironment _environment;
+        private readonly AmazonWebServiceConfig _awsconfig;
 
-        public PlaybookRepository(IssWebRazorApp.Data.IssWebRazorAppContext context, IWebHostEnvironment env) 
+        public PlaybookRepository(IssWebRazorApp.Data.IssWebRazorAppContext context, IWebHostEnvironment env ,IOptions<AmazonWebServiceConfig> awsconfig) 
         {
             _context = context;
             _environment = env;
+            _awsconfig = awsconfig.Value;
+
+            s3Directory = _awsconfig.S3Directory;
+            bucketName = _awsconfig.S3BucketName;
+            accesskey = _awsconfig.S3AccessKey;
+            secretkey = _awsconfig.S3SecretKey;
         }
         public async void Add(Playbook playbook,string bucketPath) 
         {
@@ -45,11 +53,11 @@ namespace IssWebRazorApp.Models
 
         private const string keyName = "";
         private const string filePath = null;
-        private static readonly string s3Directory = "https://iss-web-app-storage.s3-ap-northeast-1.amazonaws.com/";
-        private static readonly string bucketName = "iss-web-app-storage";
+        private readonly string s3Directory;
+        private readonly string bucketName;
         private static readonly RegionEndpoint bucketRegin = RegionEndpoint.APNortheast1;
-        private static readonly string accesskey = "AKIAQI24TSMT2CMJFLVM";
-        private static readonly string secretkey = "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";
+        private readonly string accesskey;
+        private readonly string secretkey;
 
         private void UploadFileToS3Bucket(PlayDesign playDesign,string buckectPath) 
         {

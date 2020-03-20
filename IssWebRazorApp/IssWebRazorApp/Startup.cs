@@ -31,8 +31,12 @@ namespace IssWebRazorApp
             services.AddDbContext<IssWebRazorAppContext>(options =>
                     options.UseSqlite(Configuration.GetConnectionString("IssWebRazorAppContext")));
 
-            //PlaybookRepositoryの為に追加
+            //PlaybookRepositoryの為
             services.AddScoped<IPlaybookRepository,PlaybookRepository>();
+
+            //AWS Configファイル読み込みの為
+            services.AddOptions();
+            services.Configure<AmazonWebServiceConfig>(Configuration.GetSection(nameof(AmazonWebServiceConfig)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
