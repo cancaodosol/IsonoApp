@@ -37,8 +37,8 @@ namespace IssWebRazorApp.Data
             Playbook playbook = new Playbook(PlaybookSystemId);
 
             playbook.ChangePlaybookId(PlaybookId);
-            Category category = categories.FirstOrDefault(m => m.Code.Equals(Category));
-            playbook.ChangeCategory(category);
+            var category = categories.FirstOrDefault(m => m.Code.Equals(Category));
+            playbook.ChangeCategory(category != null ? category : new Models.Category("0000"));
             playbook.ChangePlayName(new PlayName(PlayFullName,PlayShortName,PlayCallName));
             playbook.ChangeContext(new Context(Context));
             playbook.ChangeInstallStatus(IntroduceStatus);

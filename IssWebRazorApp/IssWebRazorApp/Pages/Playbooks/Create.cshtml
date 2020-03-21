@@ -15,21 +15,26 @@
         <form method="post" enctype="multipart/form-data">
             <div class="text-danger">@Model.Message</div>
             <!--
-    <div class="form-group">
-        <label asp-for="PlaybookData.PlaybookId" class="control-label"></label>
-        <input asp-for="PlaybookData.PlaybookId" class="form-control" />
-        <span asp-validation-for="PlaybookData.PlaybookId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-    <label asp-for="PlaybookData.OffenseFormationId" class="control-label"></label>
-    <input asp-for="PlaybookData.OffenseFormationId" class="form-control" />
-    <span asp-validation-for="PlaybookData.OffenseFormationId" class="text-danger"></span>
-    </div>-->
+            <div class="form-group">
+            <label asp-for="PlaybookData.PlaybookId" class="control-label"></label>
+            <input asp-for="PlaybookData.PlaybookId" class="form-control" />
+            <span asp-validation-for="PlaybookData.PlaybookId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+            <label asp-for="PlaybookData.OffenseFormationId" class="control-label"></label>
+            <input asp-for="PlaybookData.OffenseFormationId" class="form-control" />
+            <span asp-validation-for="PlaybookData.OffenseFormationId" class="text-danger"></span>
+            </div>-->
             <!--<div class="form-group">
-    <label asp-for="PlaybookData.DefenceFormationId" class="control-label"></label>
-    <input asp-for="PlaybookData.DefenceFormationId" class="form-control" />
-    <span asp-validation-for="PlaybookData.DefenceFormationId" class="text-danger"></span>
-    </div>-->
+            <label asp-for="PlaybookData.DefenceFormationId" class="control-label"></label>
+            <input asp-for="PlaybookData.DefenceFormationId" class="form-control" />
+            <span asp-validation-for="PlaybookData.DefenceFormationId" class="text-danger"></span>
+            </div>-->
+            <div class="form-group">
+                <label asp-for="PlaybookData.IntroduceStatus" class="control-label"></label>
+                <select asp-for="PlaybookData.IntroduceStatus" asp-items="@Model.StatusList" class="form-control" ></select>
+                <span asp-validation-for="PlaybookData.IntroduceStatus" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="PlaybookData.Category" class="control-label"></label>
                 <select asp-for="PlaybookData.Category" asp-items="@Model.CaterogyList" class="form-control"></select>
@@ -49,11 +54,6 @@
                 <label asp-for="PlaybookData.PlayCallName" class="control-label"></label>
                 <input asp-for="PlaybookData.PlayCallName" class="form-control" />
                 <span asp-validation-for="PlaybookData.PlayCallName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PlaybookData.IntroduceStatus" class="control-label"></label>
-                <select asp-for="PlaybookData.IntroduceStatus" asp-items="Html.GetEnumSelectList<InstallStatus>()" class="form-control"></select>
-                <span asp-validation-for="PlaybookData.IntroduceStatus" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="PlayDesignFile" class="control-label"></label>

@@ -16,16 +16,20 @@ namespace IssWebRazorApp.Playbooks
     {
         private readonly IPlaybookRepository _playbookRepository;
         public SelectList CaterogyList;
+        public SelectList StatusList;
 
         public CreateModel(IPlaybookRepository playbookRepository)
         {
             _playbookRepository = playbookRepository;
             IList<Category> categories = _playbookRepository.GetCategoryList("Offense");
             CaterogyList = new SelectList(categories,"Code","Name");
+            StatusList = InstallSatusService.GetSelectList();
+            PlaybookData = new PlaybookData();
         }
 
         public IActionResult OnGet()
         {
+            PlaybookData.IntroduceStatus = ((int)InstallStatus.Want_Instoll).ToString();
             return Page();
         }
 

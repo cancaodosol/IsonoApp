@@ -21,7 +21,7 @@ namespace IssWebRazorApp.Models
             var fileExtension = Path.GetExtension(file.FileName).ToLower();
 
 
-            if (CanUseFileExtension(fileExtension))
+            if (CanUseFileExtension(fileExtension) == false)
             {
                 File = null;
                 return;
@@ -37,7 +37,7 @@ namespace IssWebRazorApp.Models
         /// <returns></returns>
         private bool CanUseFileExtension(string fileExtension)
         {
-            var canUseFileExtension = new string[] { ".jpeg", "jpg", "png" };
+            var canUseFileExtension = new string[] { ".jpeg", ".jpg", ".png" };
             var result = false;
 
             foreach (var item in canUseFileExtension)

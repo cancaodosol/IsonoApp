@@ -1,7 +1,9 @@
 ﻿using IssWebRazorApp.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -50,6 +52,16 @@ namespace IssWebRazorApp.Models
         public Playbook(PlaybookData data, IFormFile file, User createUser)
             : this(data.PlaybookId, new Category(data.Category), new PlayName(data.PlayFullName, data.PlayShortName, data.PlayCallName), data.IntroduceStatus, file, new Context(data.Context), createUser)
         {
+        }
+
+        public void ChangePlaybook(PlaybookData data, IFormFile file, User updateUser)
+        {
+            ChangeInstallStatus(data.IntroduceStatus);
+            ChangeCategory(new Category(data.Category));
+            ChangePlayName(new PlayName(data.PlayFullName, data.PlayShortName, data.PlayCallName));
+            ChangePlayDesign(file);
+            ChangeContext(new Context(data.Context));
+            ChangeLastUpdateUser(updateUser, DateTime.Now);
         }
 
         public void ChangePlaybookId(int id)
@@ -139,14 +151,57 @@ namespace IssWebRazorApp.Models
         Instolled,
         Instolling,
         Will_Instoll,
-        Want_Instoll
+        Want_Instoll,
+        Not_Adopted
     }
 
     public static class InstallSatusService{
-        public static string GetName(string status) {
-            int index = int.Parse(status);
-            string[] statusName = { "練習済み", "練習途中", "採用予定", "採用依頼" };
-            return statusName[index];
+        private readonly static string[] StatusName = { "練習済み", "練習途中", "採用予定", "採用依頼", " 不採用 " };
+        public static string DisplayName(this InstallStatus status)
+        {            
+            return StatusName[(int)status];
+        }
+
+        public static string GetName(string status) 
+        {
+            string name;
+            try
+            {
+                name = StatusName[int.Parse(status)];
+            }
+            catch (Exception ex) 
+            {
+                name = "";
+            }
+            return name;
+        }
+
+        public class EnumerateInstallStatuses
+        {
+            public IEnumerator<InstallStatus> GetEnumerator() 
+            {
+                foreach (var status in Enum.GetValues(typeof(InstallStatus))) 
+                    yield return (InstallStatus)status;                
+            }
+        }
+
+        public static EnumerateInstallStatuses Enumerate() 
+        {
+            return new EnumerateInstallStatuses();
+        }
+
+        //TODO 並び順がKEY順にならないので対応が必要。
+        public static SelectList GetSelectList() 
+        {
+            var statuses = new Hashtable();
+            foreach (var status in Enumerate()) 
+            {
+                string text = status.DisplayName();
+                string value = ((int)status).ToString();
+                statuses.Add(value,text);
+            }
+
+            return new SelectList(statuses,"Key","Value");
         }
     }
 }

@@ -7,20 +7,30 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IssWebRazorApp.Data;
+using IssWebRazorApp.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace IssWebRazorApp.Playbooks
 {
     public class EditModel : PageModel
     {
-        private readonly IssWebRazorApp.Data.IssWebRazorAppContext _context;
+        private readonly IPlaybookRepository _playbookRepository;
+        public SelectList CaterogyList;
+        public SelectList StatusList;
 
-        public EditModel(IssWebRazorApp.Data.IssWebRazorAppContext context)
+        public EditModel(IPlaybookRepository playbookRepository)
         {
-            _context = context;
+            _playbookRepository = playbookRepository;
+            IList<Category> categories = _playbookRepository.GetCategoryList("Offense");
+            CaterogyList = new SelectList(categories, "Code", "Name");
+            StatusList = InstallSatusService.GetSelectList();
         }
 
         [BindProperty]
         public PlaybookData PlaybookData { get; set; }
+        public Playbook Playbook { get; set; }
+        public IFormFile PlayDesignFile { get; set; }
+        public string Message { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,12 +39,15 @@ namespace IssWebRazorApp.Playbooks
                 return NotFound();
             }
 
-            PlaybookData = await _context.PlaybookData.FirstOrDefaultAsync(m => m.PlaybookSystemId == id);
+            Playbook = _playbookRepository.Find((int)id);
 
-            if (PlaybookData == null)
+            if (Playbook == null)
             {
                 return NotFound();
             }
+
+            PlaybookData = Playbook.ToData();
+
             return Page();
         }
 
@@ -47,30 +60,23 @@ namespace IssWebRazorApp.Playbooks
                 return Page();
             }
 
-            _context.Attach(PlaybookData).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                Playbook = _playbookRepository.Find(PlaybookData.PlaybookSystemId);
+
+                var updateUser = new User(71,"");
+
+                Playbook.ChangePlaybook(PlaybookData,PlayDesignFile,updateUser);
+
+                _playbookRepository.Edit(Playbook, "Offense");
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex) 
             {
-                if (!PlaybookDataExists(PlaybookData.PlaybookSystemId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                Message = ex.Message;
+                return Page();
             }
 
             return RedirectToPage("./Index");
-        }
-
-        private bool PlaybookDataExists(int id)
-        {
-            return _context.PlaybookData.Any(e => e.PlaybookSystemId == id);
         }
     }
 }

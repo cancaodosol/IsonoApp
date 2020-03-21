@@ -4,6 +4,7 @@ using Amazon.S3.Transfer;
 using IssWebRazorApp.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,12 @@ namespace IssWebRazorApp.Models
             bucketName = _awsconfig.S3BucketName;
             accesskey = _awsconfig.S3AccessKey;
             secretkey = _awsconfig.S3SecretKey;
+        }
+        public Playbook Find(int id)
+        {
+            PlaybookData data = _context.PlaybookData.AsNoTracking().FirstOrDefault(m => m.PlaybookSystemId == id);
+            IList<Category> categories = GetCategoryList("Offense");
+            return data.ToModel(categories);
         }
 
         public IList<Playbook> FindAll() 
@@ -113,6 +120,26 @@ namespace IssWebRazorApp.Models
             catch (AmazonS3Exception amazonS3Exception)
             {
                 Console.WriteLine(amazonS3Exception);
+            }
+        }
+
+        public async void Edit(Playbook playbook, string bucketPath)
+        {
+            var data = playbook.ToData();
+            _context.Attach(data).State = EntityState.Modified;
+
+            try
+            {
+                if (playbook.PlayDesign.File != null)
+                {
+                    UploadFileToS3Bucket(playbook.PlayDesign, bucketPath);
+                    data.PlayDesignUrl = s3Directory + bucketPath + "/" + playbook.PlayDesign.FileName;
+                }
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw;
             }
         }
 
