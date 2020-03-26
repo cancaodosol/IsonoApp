@@ -42,7 +42,7 @@ namespace IssWebRazorApp.Models
             ChangePlayName(playName);
             ChangeContext(context);
             ChangeInstallStatus(installStatus);
-            ChangePlayDesign(file);
+            ChangePlayDesign(new PlayDesign(file,PlayName));
             CreateUser = createUser;
             CreateDate = DateTime.Now;
             LastUpdateUser = createUser;
@@ -84,7 +84,7 @@ namespace IssWebRazorApp.Models
         }
         public void ChangePlayDesign(IFormFile file)
         {
-            ChangePlayDesign(new PlayDesign(file, PlayName));
+            PlayDesign.ChangeFile(file, PlayName);
         }
         public void ChangePlayDesign(PlayDesign playDesign)
         {

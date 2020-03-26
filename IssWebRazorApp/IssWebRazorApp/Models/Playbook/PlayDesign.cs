@@ -16,6 +16,11 @@ namespace IssWebRazorApp.Models
 
         public PlayDesign(IFormFile file, PlayName playName)
         {
+            ChangeFile(file,playName);
+        }
+
+        public void ChangeFile(IFormFile file, PlayName playName)
+        {
             if (file == null) return;
 
             var fileExtension = Path.GetExtension(file.FileName).ToLower();
@@ -30,6 +35,7 @@ namespace IssWebRazorApp.Models
             FileName = CreateFileName(playName, fileExtension);
             File = file;
         }
+
         /// <summary>
         /// プレイブックデザイン画像に使用可能なファイル拡張子か判別する。
         /// </summary>

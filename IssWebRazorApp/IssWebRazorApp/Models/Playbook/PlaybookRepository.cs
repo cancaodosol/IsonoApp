@@ -90,13 +90,13 @@ namespace IssWebRazorApp.Models
         private void UploadFileToS3Bucket(PlayDesign playDesign, string buckectPath)
         {
             var file = playDesign.File;
-            var s3Cliant = new AmazonS3Client(accesskey, secretkey, bucketRegin);
-            var fileTransferUtility = new TransferUtility(s3Cliant);
             try
             {
+                var s3Cliant = new AmazonS3Client(accesskey, secretkey, bucketRegin);
+                var fileTransferUtility = new TransferUtility(s3Cliant);
                 if (file.Length > 0)
                 {
-                    var filePath = Path.Combine(_environment.ContentRootPath, "Upload", playDesign.FileName);
+                    var filePath = Path.Combine(_environment.ContentRootPath, playDesign.FileName);
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         file.CopyTo(fileStream);
@@ -114,12 +114,14 @@ namespace IssWebRazorApp.Models
                     fileTransferUtilityRequest.Metadata.Add("param2", "Value2");
                     fileTransferUtility.Upload(fileTransferUtilityRequest);
                     fileTransferUtility.Dispose();
+                    File.Delete(filePath);
                 }
                 Console.WriteLine("File Uploaded Successfully!!");
             }
             catch (AmazonS3Exception amazonS3Exception)
             {
-                Console.WriteLine(amazonS3Exception);
+                //Console.WriteLine(amazonS3Exception);
+                throw amazonS3Exception;
             }
         }
 
@@ -137,9 +139,9 @@ namespace IssWebRazorApp.Models
                 }
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
