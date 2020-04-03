@@ -1,6 +1,7 @@
 ﻿@page
 @model IssWebRazorApp.Playbooks.IndexModel
 @using IssWebRazorApp.Models
+@using System.Collections;
 
 @{
     ViewData["Title"] = "Index";
@@ -11,76 +12,80 @@
 <p>
     <a asp-page="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.Playbooks[0].InstallStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Playbooks[0].Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Playbooks[0].PlayName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Playbooks[0].PlayName.ShortName)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Playbooks)
-        {
-            <tr>
-                <td>
-                    <img src="~/images/icon_down _arrow_s.png" />
-                </td>
-                <td>
-                    @if (String.IsNullOrEmpty(item.InstallStatus) == false)
-                    {
-                        @InstallSatusService.GetName(item.InstallStatus);
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PlayName.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PlayName.ShortName)
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.PlaybookSystemId">Edit</a>  |
-                    <a asp-page="./Details" asp-route-id="@item.PlaybookSystemId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.PlaybookSystemId">Delete</a>
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td colspan="3">
-                    @if (String.IsNullOrEmpty(item.PlayDesign.Url))
-                    {
-                        <img src="~/images/no_image_01.png" width="460">
 
-                    }
-                    else
-                    {
-                        <img src="@item.PlayDesign.Url" width="460">
-                    }
-                </td>
-                <td colspan="2">
-                    ■Context<br>
-                    <pre>@Html.DisplayFor(modelItem => item.Context.Text)</pre>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="7" align="right">
-                    Created: @item.CreateDate / Last Update : @item.LastUpdateDate
-                </td>
-            </tr>
+<div class="row">
+    @foreach (DictionaryEntry status in Model.InstallStatuses)
+    {
+    <label class="btn" data-toggle="collapse" data-target=".installstatus_@status.Key" aria-expanded="false" aria-controls=".installstatus_@status.Key">
+        <input type="checkbox" checked autocomplete="off"/> @status.Value 
+    </label>
+    }
+</div>
+<div class="row">
+    @foreach (var category in Model.Cotegories)
+    {
+    <label class="btn" data-toggle="collapse" data-target=".catecory_@category.Code" aria-expanded="false" aria-controls=".catecory_@category.Code">
+        <input type="checkbox" checked autocomplete="off" /> @category.Name 
+    </label>
+    }
+</div>
+
+@{int i = 0; }
+@foreach (var item in Model.Playbooks)
+{
+    <!--@(i++)-->
+    <div class="card installstatus_@item.InstallStatus catecory_@item.Category.Code collapse show">
+        <div class="card-header">
+            <span class="badge badge-primary">@if (String.IsNullOrEmpty(item.InstallStatus) == false)@InstallSatusService.GetName(item.InstallStatus)</span>
+            <span class="badge badge-warning">@Html.DisplayFor(modelItem => item.Category.Name)</span>
+            <div class="row">
+                <div class="col">@Html.DisplayFor(modelItem => item.PlayName.FullName)</div>
+                <div class="btn btn-info gg-chevron-double-down d-sm-inline-flex align-items-end accordion_btn" data-toggle="collapse" data-target="#raedmore_@i" aria-expanded="true" aria-controls="raedmore_@i"></div>
+            </div>
+        </div>
+
+        <div class="collapse raedmore" id="raedmore_@i">
+            <div class="card-body">
+                <div class="card-text row">
+                    <div class="col-md-6">
+                        @if (String.IsNullOrEmpty(item.PlayDesign.Url))
+                        {
+                            <img class="card-img-top w-100" src="~/images/no_image_01.png">
+                        }
+                        else
+                        {
+                            <img class="card-img-top w-100" src="@item.PlayDesign.Url">
+                        }
+                    </div>
+                    <div class="col-md-6">
+                        ■PlayName<br>
+                        ・Play Short Name : @Html.DisplayFor(modelItem => item.PlayName.ShortName) <br>
+                        ・Play Call       : @Html.DisplayFor(modelItem => item.PlayName.PlayCall) <br><br>
+                        ■Context<br>
+                        <pre>@Html.DisplayFor(modelItem => item.Context.Text)</pre>
+                        <div class="text-right d-sm-inline-flex align-items-end">
+                            Created: @item.CreateDate<br>
+                            Last Update : @item.LastUpdateDate
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <a class="btn btn-light" asp-page="./Details" asp-route-id="@item.PlaybookSystemId">Details</a>
+                <a class="btn btn-danger" asp-page="./Delete" asp-route-id="@item.PlaybookSystemId">Delete</a>
+                <a class="btn btn-info" asp-page="./Edit" asp-route-id="@item.PlaybookSystemId">Edit</a>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+        .accordion_btn {
+            margin-top:-0.5rem;
         }
-    </tbody>
-</table>
+    </style>
+}
+
+@section Scripts {
+    <script>
+
+    </script>
+}

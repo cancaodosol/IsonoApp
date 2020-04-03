@@ -6,8 +6,16 @@
     <title>@ViewData["Title"] - IssWebRazorApp</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <script type="text/javascript" src="~/js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript" src="~/js/matsui_original.js"></script>
+    <link rel='stylesheet' href='https://css.gg/chevron-double-down.css'>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162109004-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-162109004-1');
+    </script>
 </head>
 <body>
     <header>
@@ -52,6 +60,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="~/js/jquery-3.4.1.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

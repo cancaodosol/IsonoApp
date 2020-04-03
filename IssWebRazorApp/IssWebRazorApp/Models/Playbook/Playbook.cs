@@ -193,15 +193,20 @@ namespace IssWebRazorApp.Models
         //TODO 並び順がKEY順にならないので対応が必要。
         public static SelectList GetSelectList() 
         {
+            var statuses = GetHushtable();
+            return new SelectList(statuses,"Key","Value");
+        }
+
+        public static Hashtable GetHushtable()
+        {
             var statuses = new Hashtable();
-            foreach (var status in Enumerate()) 
+            foreach (var status in Enumerate())
             {
                 string text = status.DisplayName();
                 string value = ((int)status).ToString();
-                statuses.Add(value,text);
+                statuses.Add(value, text);
             }
-
-            return new SelectList(statuses,"Key","Value");
+            return statuses;
         }
     }
 }

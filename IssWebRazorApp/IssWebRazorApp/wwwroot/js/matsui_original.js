@@ -18,3 +18,11 @@ function apper(element){
 function disapper(elementj){
 	element.style.display = "none";
 }
+
+function showReadMore(btn)
+{
+	var targetId = btn.getAttribute("href");
+	$(targetId).hide();
+	//$(targetId).slideDown("slow");
+	return false;
+}
