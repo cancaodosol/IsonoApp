@@ -1,0 +1,66 @@
+﻿@page
+@model IssWebRazorApp.ScheduleManagement.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Schedule Management</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ScheduleData[0].EventType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScheduleData[0].StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScheduleData[0].EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScheduleData[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScheduleData[0].Context)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ScheduleData[0].Place)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.ScheduleData) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Context)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Place)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ScheduleId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.ScheduleId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ScheduleId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,60 @@
+﻿@page
+@model IssWebRazorApp.ScheduleManagement.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>ScheduleData</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ScheduleData.ScheduleId" />
+            <div class="form-group">
+                <label asp-for="ScheduleData.EventType" class="control-label"></label>
+                <input asp-for="ScheduleData.EventType" class="form-control" />
+                <span asp-validation-for="ScheduleData.EventType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleData.StartDate" class="control-label"></label>
+                <input asp-for="ScheduleData.StartDate" class="form-control" />
+                <span asp-validation-for="ScheduleData.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleData.EndDate" class="control-label"></label>
+                <input asp-for="ScheduleData.EndDate" class="form-control" />
+                <span asp-validation-for="ScheduleData.EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleData.Title" class="control-label"></label>
+                <input asp-for="ScheduleData.Title" class="form-control" />
+                <span asp-validation-for="ScheduleData.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleData.Context" class="control-label"></label>
+                <input asp-for="ScheduleData.Context" class="form-control" />
+                <span asp-validation-for="ScheduleData.Context" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleData.Place" class="control-label"></label>
+                <input asp-for="ScheduleData.Place" class="form-control" />
+                <span asp-validation-for="ScheduleData.Place" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

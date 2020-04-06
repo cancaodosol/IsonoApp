@@ -3,14 +3,16 @@ using System;
 using IssWebRazorApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IssWebRazorApp.Migrations
 {
     [DbContext(typeof(IssWebRazorAppContext))]
-    partial class IssWebRazorAppContextModelSnapshot : ModelSnapshot
+    [Migration("20200405100814_add20200405")]
+    partial class add20200405
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

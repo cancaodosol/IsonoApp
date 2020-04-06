@@ -4,7 +4,50 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+
+        <div class="row">
+            <img class="card-img-top w-100" src="~/images/homepage.jpg">
+        </div>
+
+        <h2 class="text-left mt-3">■活動スケジュール</h2>
+        <table class="table">
+            <caption>活動スケジュール</caption>
+            <thead>
+                <tr>
+                    <th>
+                        日程
+                    </th>
+                    <th>
+                        タイトル
+                    </th>
+                    <th>
+                        場所
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.schedules)
+                {
+                <tr>
+                    <td>
+                        @item.EventDate
+                    </td>
+                    <td>
+                        @item.Title
+                    </td>
+                    <td>
+                        @if (!String.IsNullOrWhiteSpace(item.Place.Name))
+                        {
+                            @item.Place.Name
+                        }
+                    </td>
+                </tr>
+                }
+                <tr>
+                    <td colspan="3" class="text-right"><a asp-page="./ScheduleManagement/Index">スケジュール編集用ページ</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
