@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@using IssWebRazorApp.Models;
+@using IssWebRazorApp.Models.Common;
+
+@{ 
+    var sessionService = new SessionService();
+    var LoginUser = sessionService.GetLoginUser(Context);
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -38,8 +48,39 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/Playbooks/Index">Playbooks</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Categories/Index">PlayCategories</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/FootballNotes/Index">FootballNotes</a>
                         </li>
+                        <li class="nav-item">
+                            <div class="btn-group" role="group">
+                                <button id="managementDropMenu" type="button" class="btn dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Management</button>
+                                <div class="dropdown-menu" aria-labelledby="managementDropMenu">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Categories/Index">PlayCategories</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Positions/Index">Positions</a>
+                                </div>
+                            </div>
+                        </li>
+                        @if (LoginUser != null)
+                        {
+                            <li class="nav-item">
+                                <div class="btn-group" role="group">
+                                    <button id="userDropMenu" type="button" class="btn dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">UserMenu</button>
+                                    <div class="dropdown-menu" aria-labelledby="userDropMenu">
+                                        <a class="dropdown-item" href="">@LoginUser.UserName.DisplayName のページ</a>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <div class="btn-group" role="group">
+                                    <button id="userDropMenu" type="button" class="btn dropdown-toggle text-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">UserMenu</button>
+                                    <div class="dropdown-menu" aria-labelledby="userDropMenu">
+                                        <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+                                    </div>
+                                </div>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

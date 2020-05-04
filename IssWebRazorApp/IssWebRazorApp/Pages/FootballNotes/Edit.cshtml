@@ -1,0 +1,92 @@
+﻿@page
+@model IssWebRazorApp.FootballNotes.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h4>FootballNoteData</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="FootballNoteData.NoteId" />
+            <div class="form-group">
+                <label asp-for="FootballNoteData.Title" class="control-label"></label>
+                <input asp-for="FootballNoteData.Title" class="form-control" />
+                <span asp-validation-for="FootballNoteData.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.Context" class="control-label"></label>
+                <input asp-for="FootballNoteData.Context" class="form-control" />
+                <span asp-validation-for="FootballNoteData.Context" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.PhotoUrl" class="control-label"></label>
+                <input asp-for="FootballNoteData.PhotoUrl" class="form-control" />
+                <span asp-validation-for="FootballNoteData.PhotoUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.CreateUserId" class="control-label"></label>
+                <input asp-for="FootballNoteData.CreateUserId" class="form-control" />
+                <span asp-validation-for="FootballNoteData.CreateUserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.CreateDate" class="control-label"></label>
+                <input asp-for="FootballNoteData.CreateDate" class="form-control" />
+                <span asp-validation-for="FootballNoteData.CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.LastUpdateUserId" class="control-label"></label>
+                <input asp-for="FootballNoteData.LastUpdateUserId" class="form-control" />
+                <span asp-validation-for="FootballNoteData.LastUpdateUserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.LastUpdateDate" class="control-label"></label>
+                <input asp-for="FootballNoteData.LastUpdateDate" class="form-control" />
+                <span asp-validation-for="FootballNoteData.LastUpdateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.TargetNoteId" class="control-label"></label>
+                <input asp-for="FootballNoteData.TargetNoteId" class="form-control" />
+                <span asp-validation-for="FootballNoteData.TargetNoteId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.TargetSession" class="control-label"></label>
+                <input asp-for="FootballNoteData.TargetSession" class="form-control" />
+                <span asp-validation-for="FootballNoteData.TargetSession" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.TargetCategoryCode" class="control-label"></label>
+                <input asp-for="FootballNoteData.TargetCategoryCode" class="form-control" />
+                <span asp-validation-for="FootballNoteData.TargetCategoryCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.TargetPlaybookId" class="control-label"></label>
+                <input asp-for="FootballNoteData.TargetPlaybookId" class="form-control" />
+                <span asp-validation-for="FootballNoteData.TargetPlaybookId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.TargetPositionId" class="control-label"></label>
+                <input asp-for="FootballNoteData.TargetPositionId" class="form-control" />
+                <span asp-validation-for="FootballNoteData.TargetPositionId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FootballNoteData.TargetScheduleId" class="control-label"></label>
+                <input asp-for="FootballNoteData.TargetScheduleId" class="form-control" />
+                <span asp-validation-for="FootballNoteData.TargetScheduleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

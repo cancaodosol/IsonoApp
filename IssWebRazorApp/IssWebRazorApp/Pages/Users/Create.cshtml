@@ -1,0 +1,98 @@
+﻿@page
+@model IssWebRazorApp.Users.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>UserData</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="UserData.LoginId" class="control-label"></label>
+                <input asp-for="UserData.LoginId" class="form-control" />
+                <span asp-validation-for="UserData.LoginId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.DisplayName" class="control-label"></label>
+                <input asp-for="UserData.DisplayName" class="form-control" />
+                <span asp-validation-for="UserData.DisplayName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.FirstNameKanji" class="control-label"></label>
+                <input asp-for="UserData.FirstNameKanji" class="form-control" />
+                <span asp-validation-for="UserData.FirstNameKanji" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.LastNameKanji" class="control-label"></label>
+                <input asp-for="UserData.LastNameKanji" class="form-control" />
+                <span asp-validation-for="UserData.LastNameKanji" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.FirstNameRoman" class="control-label"></label>
+                <input asp-for="UserData.FirstNameRoman" class="form-control" />
+                <span asp-validation-for="UserData.FirstNameRoman" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.LastNameRoman" class="control-label"></label>
+                <input asp-for="UserData.LastNameRoman" class="form-control" />
+                <span asp-validation-for="UserData.LastNameRoman" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.LoginPassword" class="control-label"></label>
+                <input asp-for="UserData.LoginPassword" class="form-control" />
+                <span asp-validation-for="UserData.LoginPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.UniformNumber" class="control-label"></label>
+                <input asp-for="UserData.UniformNumber" class="form-control" />
+                <span asp-validation-for="UserData.UniformNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.PositionId" class="control-label"></label>
+                <select asp-for="UserData.PositionId" class="form-control" asp-items="ViewBag.PositionId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.UserType" class="control-label"></label>
+                <input asp-for="UserData.UserType" class="form-control" />
+                <span asp-validation-for="UserData.UserType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.SystemRole" class="control-label"></label>
+                <input asp-for="UserData.SystemRole" class="form-control" />
+                <span asp-validation-for="UserData.SystemRole" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.Education" class="control-label"></label>
+                <input asp-for="UserData.Education" class="form-control" />
+                <span asp-validation-for="UserData.Education" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.Height" class="control-label"></label>
+                <input asp-for="UserData.Height" class="form-control" />
+                <span asp-validation-for="UserData.Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserData.Weight" class="control-label"></label>
+                <input asp-for="UserData.Weight" class="form-control" />
+                <span asp-validation-for="UserData.Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

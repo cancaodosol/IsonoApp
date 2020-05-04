@@ -1,0 +1,57 @@
+﻿@page
+@model IssWebRazorApp.FootballNotes.IndexModel
+@{
+    ViewData["Title"] = "Index";
+
+    int numIcon = 10;
+    int random = new System.Random().Next(1,numIcon);
+}
+
+<h1>FootballNotes</h1>
+
+<p>
+    <a asp-page="Create" asp-route-id="0">Create New</a>
+</p>
+
+@foreach (var unit in Model.FootballNoteUnits)
+{
+    <div class="media">
+        <p class="mr-3">
+            <img src="~/images/icon_user_@((random+unit.ParentNote.Editor.CreateUser.UserId)%numIcon).png">
+            <span class="text-center d-block">@unit.ParentNote.Editor.CreateUser.UserName.DisplayName</span>
+        </p>
+        <div class="media-body">
+            <h5>@unit.ParentNote.Context.Title</h5>
+            @Html.Raw(unit.ParentNote.Context.Text.Replace("\r\n", "<br />"))
+        <div class="text-right">
+            @unit.ParentNote.Editor.Display
+            <a asp-page="./Delete" asp-route-id="@unit.ParentNote.NoteId"><img class="ml-3" src="~/images/icon_delete.png"></a>
+            <a asp-page="./Edit" asp-route-id="@unit.ParentNote.NoteId"><img class="ml-3" src="~/images/icon_edit.png"></a>
+            <a asp-page="./Details" asp-route-id="@unit.ParentNote.NoteId"><img class="ml-3" src="~/images/icon_comment.png"></a>[@unit.ChildrenNotes.Count]
+            <a asp-page="Create" asp-route-id="@unit.ParentNote.NoteId"><img class="ml-3" src="~/images/icon_replay.png"></a>
+        </div>
+            @foreach (var note in unit.ChildrenNotes)
+            {
+                <hr />
+                <div class="media mt-2">
+                    <p class="mr-3">
+                        <img src="~/images/icon_user_@((random+note.Editor.CreateUser.UserId)%numIcon).png">
+                        <span class="text-center d-block">@note.Editor.CreateUser.UserName.DisplayName</span>
+                    </p>
+                    <div class="media-body">
+                        @Html.Raw(note.Context.Text.Replace("\r\n", "<br />"))
+                        <div class="text-right">
+                            @note.Editor.Display
+                            <a asp-page="./Delete" asp-route-id="@note.NoteId"><img class="ml-3" src="~/images/icon_delete.png"></a>
+                            <a asp-page="./Edit" asp-route-id="@note.NoteId"><img class="ml-3" src="~/images/icon_edit.png"></a>
+                            <a asp-page="Create" asp-route-id="@unit.ParentNote.NoteId"><img class="ml-3" src="~/images/icon_replay.png"></a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+    <hr />
+}
+
+

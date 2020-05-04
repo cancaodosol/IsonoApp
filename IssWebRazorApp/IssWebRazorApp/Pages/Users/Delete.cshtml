@@ -1,0 +1,100 @@
+﻿@page
+@model IssWebRazorApp.Users.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>UserData</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.DisplayName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.DisplayName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.FirstNameKanji)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.FirstNameKanji)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.LastNameKanji)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.LastNameKanji)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.FirstNameRoman)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.FirstNameRoman)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.LastNameRoman)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.LastNameRoman)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.LoginPassword)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.LoginPassword)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.UniformNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.UniformNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.PositionData)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.PositionData.PositionId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.UserType)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.UserType)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.SystemRole)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.SystemRole)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.Education)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.Education)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.Height)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.Height)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserData.Weight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserData.Weight)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="UserData.UserId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

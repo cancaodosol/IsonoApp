@@ -32,9 +32,14 @@ namespace IssWebRazorApp
             services.AddDbContext<IssWebRazorAppContext>(options =>
                     options.UseSqlite(Configuration.GetConnectionString("IssWebRazorAppContext")));
 
-            //PlaybookRepositoryの為
+            //セッション機能の追加
+            services.AddSession();
+            
+            //ObjectRepositoryの為
             services.AddScoped<IPlaybookRepository,PlaybookRepository>();
             services.AddScoped<IScheduleRepository,ScheduleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFootballNoteRepository, FootballNoteRepository>();
 
             //AWS Configファイル読み込みの為
             services.AddOptions();
@@ -54,6 +59,8 @@ namespace IssWebRazorApp
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseSession();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

@@ -1,0 +1,40 @@
+﻿@page
+@model IssWebRazorApp.FootballNotes.CreateModel
+@using IssWebRazorApp.Models
+@{
+    ViewData["Title"] = "Create";
+}
+<h4>FootballNoteData</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post">
+            <div class="text-danger">@Model.Message</div>
+            <input type="hidden" asp-for="TargetNoteId" />
+            @if (Model.TargetNoteId == 0)
+            {
+                <div class="form-group">
+                    <label asp-for="NoteModel.Title" class="control-label"></label>
+                    <input asp-for="NoteModel.Title" class="form-control" />
+                    <span asp-validation-for="NoteModel.Title" class="text-danger"></span>
+                </div>
+            }
+            <div class="form-group">
+                <label asp-for="NoteModel.Context" class="control-label"></label>
+                <textarea asp-for="NoteModel.Context" class="form-control" rows="8" ></textarea>
+                <span asp-validation-for="NoteModel.Context" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

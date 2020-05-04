@@ -134,8 +134,14 @@ namespace IssWebRazorApp.Models
 
     public class Context
     {
+        public string Title { get; private set; }
         public string Text { get; private set; }
 
+        public Context(string title,string text)
+        {
+            Title = title;
+            Text = text;
+        }
         public Context(string text)
         {
             Text = text;
@@ -155,7 +161,8 @@ namespace IssWebRazorApp.Models
         Not_Adopted
     }
 
-    public static class InstallSatusService{
+    public static class InstallSatusService
+    {
         private readonly static string[] StatusName = { "練習済み", "練習途中", "採用予定", "採用依頼", " 不採用 " };
         public static string DisplayName(this InstallStatus status)
         {            
@@ -169,7 +176,7 @@ namespace IssWebRazorApp.Models
             {
                 name = StatusName[int.Parse(status)];
             }
-            catch (Exception ex) 
+            catch (Exception) 
             {
                 name = "";
             }

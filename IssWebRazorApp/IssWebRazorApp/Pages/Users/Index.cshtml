@@ -1,0 +1,114 @@
+﻿@page
+@model IssWebRazorApp.Users.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].LoginId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].DisplayName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].FirstNameKanji)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].LastNameKanji)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].FirstNameRoman)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].LastNameRoman)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].LoginPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].UniformNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].PositionData)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].UserType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].SystemRole)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].Education)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserData[0].Weight)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.UserData) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoginId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstNameKanji)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastNameKanji)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstNameRoman)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastNameRoman)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoginPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UniformNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionData.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemRole)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Education)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.UserId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.UserId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.UserId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

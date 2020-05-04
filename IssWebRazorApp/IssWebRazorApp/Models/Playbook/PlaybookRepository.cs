@@ -2,6 +2,7 @@
 using Amazon.S3;
 using Amazon.S3.Transfer;
 using IssWebRazorApp.Data;
+using IssWebRazorApp.Models.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -63,20 +64,13 @@ namespace IssWebRazorApp.Models
         {
             var data = playbook.ToData();
 
-            try
+            if (playbook.PlayDesign.File != null)
             {
-                if (playbook.PlayDesign.File != null)
-                {
-                    UploadFileToS3Bucket(playbook.PlayDesign, bucketPath);
-                    data.PlayDesignUrl = s3Directory + bucketPath + "/" + playbook.PlayDesign.FileName;
-                }
-                _context.PlaybookData.Add(data);
-                await _context.SaveChangesAsync();
+                UploadFileToS3Bucket(playbook.PlayDesign, bucketPath);
+                data.PlayDesignUrl = s3Directory + bucketPath + "/" + playbook.PlayDesign.FileName;
             }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            _context.PlaybookData.Add(data);
+            await _context.SaveChangesAsync();
         }
 
         private const string keyName = "";
@@ -116,12 +110,10 @@ namespace IssWebRazorApp.Models
                     fileTransferUtility.Dispose();
                     File.Delete(filePath);
                 }
-                Console.WriteLine("File Uploaded Successfully!!");
             }
             catch (AmazonS3Exception amazonS3Exception)
             {
-                //Console.WriteLine(amazonS3Exception);
-                throw amazonS3Exception;
+                throw new ISSServiceException("AmazonS3への画像アップロードに失敗しました。",amazonS3Exception);
             }
         }
 
@@ -139,9 +131,9 @@ namespace IssWebRazorApp.Models
                 }
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                throw ex;
+                throw new ISSRepositoryException("Playbookのデータベースへの更新処理でエラーが発生しました。", ex);
             }
         }
 

@@ -17,5 +17,8 @@ namespace IssWebRazorApp.Data
         public DbSet<IssWebRazorApp.Data.PlaybookData> PlaybookData { get; set; }
         public DbSet<IssWebRazorApp.Data.CategoryData> CategoryData { get; set; }
         public DbSet<IssWebRazorApp.Data.ScheduleData> ScheduleData { get; set; }
+        public DbSet<IssWebRazorApp.Data.PositionData> PositionData { get; set; }
+        public DbSet<IssWebRazorApp.Data.UserData> UserData { get; set; }
+        public DbSet<IssWebRazorApp.Data.FootballNoteData> FootballNoteData { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 ﻿using IssWebRazorApp.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,14 +11,14 @@ namespace IssWebRazorApp.Models.Schedule
 {
     public class Schedule
     {
-        public int ScheduleId { get;}
-        public string EventDate { get;}
-        public DateTime StartDate { get;}
-        public DateTime EndDate { get;}
-        public string EventType { get;}
-        public string Title { get;}
-        public Context Context { get;}
-        public Place Place { get;}
+        public int ScheduleId { get; private set; }
+        public string EventDate { get; private set; }
+        public DateTime StartDate { get; private set; }
+        public DateTime EndDate { get; private set; }
+        public string EventType { get; private set; }
+        public string Title { get; private set; }
+        public Context Context { get; private set; }
+        public Place Place { get; private set; }
 
         public Schedule(int id) 
         {
@@ -93,10 +95,50 @@ namespace IssWebRazorApp.Models.Schedule
     }
     public enum EventType
     {
-        Practice = 0,
-        Meeting = 1,
-        PracticeGame = 2,
-        Game = 3,
-        Other = 9
+        Practice,
+        Meeting,
+        PracticeGame,
+        Game,
+        Other
+    }
+
+    public static class EventTypeService 
+    {
+        private readonly static string[] EventName = { "練習", "МＴ", "練習試合", "試合", "その他" };
+        public static string DisplayName(this EventType type)
+        {
+            return EventName[(int)type];
+        }
+
+        public static string GetName(string type) 
+        {
+            string name;
+            try 
+            {
+                name = EventName[int.Parse(type)];
+            }
+            catch (Exception ex) 
+            {
+                name = "";
+            }
+            return name;
+        }
+
+        public static SelectList GetSelectList() 
+        {
+            var types = GetHashtable();
+            return new SelectList(types,"Key","Value");
+        }
+        public static Hashtable GetHashtable() 
+        {
+            var types = new Hashtable();
+            foreach (var type in Enum.GetValues(typeof(EventType))) 
+            {
+                string key = ((int)type).ToString();
+                string value = ((EventType)type).DisplayName();
+                types.Add(key,value);
+            }
+            return types;
+        }
     }
 }

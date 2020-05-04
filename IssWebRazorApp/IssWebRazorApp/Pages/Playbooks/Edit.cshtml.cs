@@ -10,6 +10,7 @@ using IssWebRazorApp.Data;
 using IssWebRazorApp.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using IssWebRazorApp.Models.Common;
 
 namespace IssWebRazorApp.Playbooks
 {
@@ -65,8 +66,9 @@ namespace IssWebRazorApp.Playbooks
             {
                 Playbook = _playbookRepository.Find(PlaybookData.PlaybookSystemId);
 
-                var updateUser = new User(71,"");
-
+                //var sessionService = new SessionService();
+                //var updateUser = (User)sessionService.ToObject(HttpContext.Session.Get("LoginUser"));
+                var updateUser = new User(1, 71);
                 Playbook.ChangePlaybook(PlaybookData,PlayDesignFile,updateUser);
 
                 _playbookRepository.Edit(Playbook, "Offense");

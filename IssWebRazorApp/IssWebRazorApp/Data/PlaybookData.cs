@@ -43,8 +43,8 @@ namespace IssWebRazorApp.Data
             playbook.ChangeContext(new Context(Context));
             playbook.ChangeInstallStatus(IntroduceStatus);
             playbook.ChangePlayDesign(new PlayDesign(PlayDesignUrl));
-            playbook.ChangeCreateUser(new User(CreateUserId,""), CreateDate);
-            playbook.ChangeLastUpdateUser(new User(CreateUserId,""),LastUpdateDate);
+            playbook.ChangeCreateUser(new User(CreateUserId,71), CreateDate);
+            playbook.ChangeLastUpdateUser(new User(CreateUserId,71),LastUpdateDate);
 
             return playbook;
         }

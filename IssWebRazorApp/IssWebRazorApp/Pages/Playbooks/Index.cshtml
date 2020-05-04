@@ -68,7 +68,7 @@
                         ・Play Short Name : @Html.DisplayFor(modelItem => item.PlayName.ShortName) <br>
                         ・Play Call       : @Html.DisplayFor(modelItem => item.PlayName.PlayCall) <br><br>
                         ■Context<br>
-                        <pre>@Html.DisplayFor(modelItem => item.Context.Text)</pre>
+                        <pre>@item.Context.Text</pre>
                         <div class="text-right d-sm-inline-flex align-items-end">
                             Created: @item.CreateDate<br>
                             Last Update : @item.LastUpdateDate

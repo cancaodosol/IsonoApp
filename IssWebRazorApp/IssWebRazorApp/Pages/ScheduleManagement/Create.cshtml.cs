@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IssWebRazorApp.Data;
+using IssWebRazorApp.Models.Schedule;
 
 namespace IssWebRazorApp.ScheduleManagement
 {
@@ -13,9 +14,11 @@ namespace IssWebRazorApp.ScheduleManagement
     {
         private readonly IssWebRazorApp.Data.IssWebRazorAppContext _context;
 
+        public SelectList EventTypeList;
         public CreateModel(IssWebRazorApp.Data.IssWebRazorAppContext context)
         {
             _context = context;
+            EventTypeList = EventTypeService.GetSelectList();
         }
 
         public IActionResult OnGet()

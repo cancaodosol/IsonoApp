@@ -1,0 +1,48 @@
+﻿@page
+@model IssWebRazorApp.Positions.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Positions</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionData[0].PositionType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionData[0].FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionData[0].ShortName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.PositionData) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ShortName)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.PositionId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.PositionId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.PositionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

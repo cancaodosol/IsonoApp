@@ -1,5 +1,6 @@
 ﻿@page
 @model IssWebRazorApp.ScheduleManagement.IndexModel
+@using IssWebRazorApp.Models.Schedule
 
 @{
     ViewData["Title"] = "Index";
@@ -38,7 +39,7 @@
 @foreach (var item in Model.ScheduleData) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.EventType)
+                @EventTypeService.GetName(item.EventType)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.StartDate)

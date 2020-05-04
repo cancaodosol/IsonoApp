@@ -9,12 +9,17 @@ using IssWebRazorApp.Data;
 using IssWebRazorApp.Models;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using IssWebRazorApp.Models.Common;
+using IssWebRazorApp.Models.Exceptions;
+using DocumentFormat.OpenXml.Bibliography;
 
 namespace IssWebRazorApp.Playbooks
 {
     public class CreateModel : PageModel
     {
         private readonly IPlaybookRepository _playbookRepository;
+        private readonly SessionService _sessionService;
+        public User LoginUser;
         public SelectList CaterogyList;
         public SelectList StatusList;
 
@@ -22,6 +27,7 @@ namespace IssWebRazorApp.Playbooks
         {
             _playbookRepository = playbookRepository;
             IList<Category> categories = _playbookRepository.GetCategoryList("Offense");
+            _sessionService = new SessionService();
             CaterogyList = new SelectList(categories,"Code","Name");
             StatusList = InstallSatusService.GetSelectList();
             PlaybookData = new PlaybookData();
@@ -29,6 +35,8 @@ namespace IssWebRazorApp.Playbooks
 
         public IActionResult OnGet()
         {
+            LoginUser = (User)_sessionService.Get(HttpContext, "LoginUser");
+            if (LoginUser == null) return RedirectToPage("/Login");
             PlaybookData.IntroduceStatus = ((int)InstallStatus.Want_Instoll).ToString();
             return Page();
         }
@@ -49,11 +57,22 @@ namespace IssWebRazorApp.Playbooks
             }
             try
             {
-                var createUser = new User(71, "hide");
+                var sessionService = new SessionService();
+                var createUser = (User)sessionService.ToObject(HttpContext.Session.Get("LoginUser"));
                 var playbook = new Playbook(PlaybookData, PlayDesignFile, createUser);
                 _playbookRepository.Add(playbook, "Offense");
             }
-            catch (Exception ex) 
+            catch (ISSModelException ex) 
+            {
+                Message = ex.Message;
+                return Page();
+            }
+            catch (ISSServiceException ex)
+            {
+                Message = ex.Message;
+                return Page();
+            }
+            catch (ISSRepositoryException ex)
             {
                 Message = ex.Message;
                 return Page();
