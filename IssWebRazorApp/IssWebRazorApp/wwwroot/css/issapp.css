@@ -1,0 +1,14 @@
+.youtube {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  margin-top: 0.7rem;
+  margin-bottom: 0.7rem;
+}
+.youtube iframe {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100% !important;
+  height: 100% !important;
+}

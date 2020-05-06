@@ -39,7 +39,7 @@
                         <span class="text-center d-block">@note.Editor.CreateUser.UserName.DisplayName</span>
                     </p>
                     <div class="media-body">
-                        @Html.Raw(note.Context.Text.Replace("\r\n", "<br />"))
+                        @Html.Raw(note.Context.Text.Replace("\r\n", "<br />").Replace("<iframe", "<div class=\"youtube\"><iframe").Replace("</iframe>", "</iframe></div>"))
                         <div class="text-right">
                             @note.Editor.Display
                             <a asp-page="./Delete" asp-route-id="@note.NoteId"><img class="ml-3" src="~/images/icon_delete.png"></a>

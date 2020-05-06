@@ -7,7 +7,7 @@
 <h4>FootballNoteData</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="FootballNoteData.NoteId" />
@@ -18,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="FootballNoteData.Context" class="control-label"></label>
-                <input asp-for="FootballNoteData.Context" class="form-control" />
+                <textarea asp-for="FootballNoteData.Context" class="form-control" rows="8"></textarea>
                 <span asp-validation-for="FootballNoteData.Context" class="text-danger"></span>
             </div>
             <div class="form-group">
