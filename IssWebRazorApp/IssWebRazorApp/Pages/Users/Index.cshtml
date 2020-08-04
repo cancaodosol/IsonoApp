@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Users</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -14,40 +14,21 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].LoginId)
+                背番号
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].DisplayName)
+                ポジション
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].FirstNameKanji)
+                表示名
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].LastNameKanji)
+                ユーザー名
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].FirstNameRoman)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserData[0].LastNameRoman)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserData[0].LoginPassword)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserData[0].UniformNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserData[0].PositionData)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserData[0].UserType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserData[0].SystemRole)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserData[0].Education)
+                出身校
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserData[0].Height)
@@ -62,37 +43,19 @@
 @foreach (var item in Model.UserData) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.LoginId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisplayName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstNameKanji)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastNameKanji)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstNameRoman)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastNameRoman)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LoginPassword)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.UniformNumber)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PositionData.FullName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.UserType)
+                @Html.DisplayFor(modelItem => item.DisplayName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SystemRole)
+                @item.LastNameKanji @item.FirstNameKanji
+            </td>
+            <td>
+                @item.FirstNameRoman @item.LastNameRoman
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Education)
@@ -104,9 +67,7 @@
                 @Html.DisplayFor(modelItem => item.Weight)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.UserId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.UserId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.UserId">Delete</a>
+                <a asp-page="./Edit" asp-route-id="@item.UserId">Edit</a> 
             </td>
         </tr>
 }

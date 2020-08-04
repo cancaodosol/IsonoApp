@@ -35,8 +35,8 @@ namespace IssWebRazorApp.Data
         public User ToModel() 
         {
             var name = new UserName(DisplayName,FirstNameKanji,LastNameKanji,FirstNameRoman,LastNameRoman);
-            var potision = new Position(PositionData);
-            return new User(UserId,name,LoginPassword,UniformNumber,potision,UserType,SystemRole,Education,Height,Weight);
+            var potision = PositionData != null ? new Position(PositionData) : new Position(PositionId,"","","");
+            return new User(UserId,LoginId,name,LoginPassword,UniformNumber,potision,UserType,SystemRole,Education,Height,Weight);
         }
     }
 }

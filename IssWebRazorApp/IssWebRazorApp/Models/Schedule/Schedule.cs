@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IssWebRazorApp.Models.Schedule
+namespace IssWebRazorApp.Models
 {
     public class Schedule
     {
@@ -19,10 +19,17 @@ namespace IssWebRazorApp.Models.Schedule
         public string Title { get; private set; }
         public Context Context { get; private set; }
         public Place Place { get; private set; }
+        public List<ScheduleAnswer> OKAnswers { get; private set; }
+        public List<ScheduleAnswer> NGAnswers { get; private set; }
+        public List<ScheduleAnswer> HOLDAnswers { get; private set; }
+        public ScheduleAnswer LoginUsersAnswer { get; set; }
 
         public Schedule(int id) 
         {
             ScheduleId = id;
+            OKAnswers = new List<ScheduleAnswer>();
+            NGAnswers = new List<ScheduleAnswer>();
+            HOLDAnswers = new List<ScheduleAnswer>();
         }
         public Schedule(ScheduleData data) 
         {
@@ -31,6 +38,16 @@ namespace IssWebRazorApp.Models.Schedule
             ChangeContext(new Context(data.Context));
             ChangePlace(new Place(data.Place));
             ChangeScheduleDate(data.StartDate, data.EndDate);
+            OKAnswers = new List<ScheduleAnswer>();
+            NGAnswers = new List<ScheduleAnswer>();
+            HOLDAnswers = new List<ScheduleAnswer>();
+        }
+
+        public void SortAnswersByUserPosition()
+        {
+            this.OKAnswers = this.OKAnswers.OrderBy(_ => _.User.Position.PositionId).ToList();
+            this.NGAnswers = this.NGAnswers.OrderBy(_ => _.User.Position.PositionId).ToList();
+            this.HOLDAnswers = this.HOLDAnswers.OrderBy(_ => _.User.Position.PositionId).ToList();
         }
 
         public void ChangeEventType(string type) 
@@ -55,7 +72,7 @@ namespace IssWebRazorApp.Models.Schedule
             StartDate = startDate;
             EndDate = endDate;
             ChangeEventDate();
-        }
+        }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
 
         private void ChangeEventDate()
         {
@@ -117,7 +134,11 @@ namespace IssWebRazorApp.Models.Schedule
             {
                 name = EventName[int.Parse(type)];
             }
-            catch (Exception ex) 
+            catch (FormatException) 
+            {
+                name = "";
+            }
+            catch (ArgumentNullException) 
             {
                 name = "";
             }

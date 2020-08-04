@@ -1,7 +1,9 @@
-﻿using IssWebRazorApp.Data;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using IssWebRazorApp.Data;
 using IssWebRazorApp.Models.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -11,8 +13,6 @@ namespace IssWebRazorApp.Models
     [Serializable]
     public class User
     {
-
-
         private int _UserId ;
 
         public int UserId
@@ -30,6 +30,7 @@ namespace IssWebRazorApp.Models
 
         private UserName _UserName;
 
+        [Display(Name = "ユーザー名")]
         public  UserName UserName
         {
             get
@@ -44,15 +45,13 @@ namespace IssWebRazorApp.Models
 
         private string _LoginId;
 
+        [Display(Name = "ログインID")]
         public string LoginId
         {
             get
             { return _LoginId; }
             set
             { 
-                if (_LoginId == value)
-                    return;
-
                 var id = value;
 
                 // 入力文字制御
@@ -80,15 +79,13 @@ namespace IssWebRazorApp.Models
 
         private string _LoginPassword;
 
+        [Display(Name = "ログインパスワード")]
         public string LoginPassword
         {
             get
             { return _LoginPassword; }
             set
             { 
-                if (_LoginPassword == value)
-                    return;
-
                 var pass = value;
 
                 // 入力文字制御
@@ -113,12 +110,18 @@ namespace IssWebRazorApp.Models
             }
         }
 
+        [Display(Name = "背番号")]
         public int UniformNumber { get; set; }
         public Position Position { get; set; }
+        [Display(Name = "ユーザータイプ")]
         public string UserType { get; set; }
+        [Display(Name = "システムロール")]
         public string SystemRole { get; set; }
+        [Display(Name = "出身校")]
         public string Education { get; set; }
+        [Display(Name = "身長(cm)")]
         public double Height { get; set; }
+        [Display(Name = "体重(kg)")]
         public double Weight { get; set; }
 
         public User(int id, int number)
@@ -126,8 +129,9 @@ namespace IssWebRazorApp.Models
             UserId = id;
             UniformNumber = number;
         }
-        public User(int id ,UserName name, string password, int uniformNumber, Position position, string userType, string systemRole, string education, double height, double weight) {
+        public User(int id ,string  loginId,UserName name, string password, int uniformNumber, Position position, string userType, string systemRole, string education, double height, double weight) {
             UserId = id;
+            LoginId = loginId;
             UserName = name;
             LoginPassword = password;
             ChangeUniformNumber(uniformNumber);
@@ -137,6 +141,19 @@ namespace IssWebRazorApp.Models
             ChangeEducation(education);
             ChangeHeight(height);
             ChangeWeight(weight);
+        }
+        public User(UserPostRequestModel data)
+        {
+            LoginId = data.LoginId;
+            UserName = new UserName(data.DisplayName,data.FirstNameKanji,data.LastNameKanji,data.FirstNameRoman,data.LastNameRoman);
+            LoginPassword = data.LoginPassword;
+            ChangeUniformNumber(data.UniformNumber);
+            ChangePosition(new Position(data.PositionId,"","",""));
+            ChangeUserType(data.UserType);
+            ChangeSystemRole("2");
+            ChangeEducation(data.Education);
+            ChangeHeight(data.Height);
+            ChangeWeight(data.Weight);
         }
         public UserData ToData()
         {

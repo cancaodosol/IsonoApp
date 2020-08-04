@@ -23,7 +23,6 @@ namespace IssWebRazorApp.Models
             {
                 data.CreateUserData = userRepository.Find(data.CreateUserId);
                 data.LastUpdateUserData = userRepository.Find(data.LastUpdateUserId);
-
             }
 
             return datas;

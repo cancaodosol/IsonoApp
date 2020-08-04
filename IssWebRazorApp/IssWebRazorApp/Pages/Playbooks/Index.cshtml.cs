@@ -16,7 +16,7 @@ namespace IssWebRazorApp.Playbooks
     public class IndexModel : PageModel
     {
         private const string Session = "Offense";
-        private readonly IPlaybookRepository _playbookRepository;
+        private readonly IPlaybookService _playbookService;
         private readonly SessionService _sessionService;
         public Hashtable InstallStatuses = InstallSatusService.GetHushtable();
         public IList<Category> Cotegories;
@@ -24,20 +24,17 @@ namespace IssWebRazorApp.Playbooks
 
         public IndexModel(IPlaybookRepository playbookRepository)
         {
-            _playbookRepository = playbookRepository;
+            _playbookService = new PlaybookService(playbookRepository);
             _sessionService = new SessionService();
             InstallStatuses = InstallSatusService.GetHushtable();
-            Cotegories = _playbookRepository.GetCategoryList(Session);
+            Cotegories = _playbookService.GetCategoryList(Session);
         }
 
-        public IList<Playbook> Playbooks { get;set; }
+        public IList<PlaybookUnit> PlaybookUnits { get;set; }
 
         public async Task<IActionResult> OnGetAsync()
-        {
-            //LoginUser = (User)_sessionService.Get(HttpContext,"LoginUser");
-            //if(LoginUser == null)return RedirectToPage("/Login");
-            
-            Playbooks = _playbookRepository.FindAll();
+        {            
+            PlaybookUnits = _playbookService.FindAll(PlaybookSortType.Category);
             return Page();
         }
     }

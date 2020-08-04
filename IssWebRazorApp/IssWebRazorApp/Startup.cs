@@ -11,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using IssWebRazorApp.Data;
 using IssWebRazorApp.Models;
-using IssWebRazorApp.Models.Schedule;
 
 namespace IssWebRazorApp
 {
@@ -40,6 +39,7 @@ namespace IssWebRazorApp
             services.AddScoped<IScheduleRepository,ScheduleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFootballNoteRepository, FootballNoteRepository>();
+            services.AddScoped<IScheduleRepository, ScheduleRepository>();
 
             //AWS Configファイル読み込みの為
             services.AddOptions();

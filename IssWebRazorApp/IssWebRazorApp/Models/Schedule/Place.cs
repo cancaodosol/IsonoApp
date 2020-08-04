@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IssWebRazorApp.Models.Schedule
+namespace IssWebRazorApp.Models
 {
     public class Place
     {

@@ -8,10 +8,11 @@ namespace IssWebRazorApp.Data
 {
     public interface IPlaybookRepository
     {
-        public Playbook Find(int id);
-        public IList<Playbook> FindAll();
-        public void Add(Playbook playbook,string bucketPath);
-        public void Edit(Playbook playbook, string bucketPath);
-        public IList<Category> GetCategoryList(String session);
+        public PlaybookData Find(int id);
+        public IList<PlaybookData> FindAll();
+        public Task Add(PlaybookData data);
+        public Task Edit(PlaybookData data);
+        public void UploadFileToS3Bucket(PlayDesign playDesign, string bucketPath, out string uploadFilePath);
+        public List<CategoryData> GetCategoryDataList(string session);
     }
 }

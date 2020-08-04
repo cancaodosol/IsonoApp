@@ -16,14 +16,17 @@ namespace IssWebRazorApp.Playbooks
 {
     public class EditModel : PageModel
     {
-        private readonly IPlaybookRepository _playbookRepository;
+        private readonly IPlaybookService _playbookService;
+        private readonly SessionService _sessionService;
+        public User LoginUser;
         public SelectList CaterogyList;
         public SelectList StatusList;
 
         public EditModel(IPlaybookRepository playbookRepository)
         {
-            _playbookRepository = playbookRepository;
-            IList<Category> categories = _playbookRepository.GetCategoryList("Offense");
+            _playbookService = new PlaybookService(playbookRepository);
+            IList<Category> categories = _playbookService.GetCategoryList("Offense");
+            _sessionService = new SessionService();
             CaterogyList = new SelectList(categories, "Code", "Name");
             StatusList = InstallSatusService.GetSelectList();
         }
@@ -36,12 +39,15 @@ namespace IssWebRazorApp.Playbooks
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            LoginUser = _sessionService.GetLoginUser(HttpContext);
+            if (LoginUser == null) return RedirectToPage("/Login");
+
             if (id == null)
             {
                 return NotFound();
             }
 
-            Playbook = _playbookRepository.Find((int)id);
+            Playbook = _playbookService.Find((int)id);
 
             if (Playbook == null)
             {
@@ -57,6 +63,9 @@ namespace IssWebRazorApp.Playbooks
         // more details see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            LoginUser = _sessionService.GetLoginUser(HttpContext);
+            if (LoginUser == null) return RedirectToPage("/Login");
+
             if (!ModelState.IsValid)
             {
                 return Page();
@@ -64,14 +73,12 @@ namespace IssWebRazorApp.Playbooks
 
             try
             {
-                Playbook = _playbookRepository.Find(PlaybookData.PlaybookSystemId);
+                Playbook = _playbookService.Find(PlaybookData.PlaybookSystemId);
 
-                //var sessionService = new SessionService();
-                //var updateUser = (User)sessionService.ToObject(HttpContext.Session.Get("LoginUser"));
-                var updateUser = new User(1, 71);
+                var updateUser = LoginUser;
                 Playbook.ChangePlaybook(PlaybookData,PlayDesignFile,updateUser);
 
-                _playbookRepository.Edit(Playbook, "Offense");
+                _playbookService.Edit(Playbook);
             }
             catch (Exception ex) 
             {

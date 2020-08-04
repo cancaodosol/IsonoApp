@@ -16,8 +16,8 @@
 @foreach (var unit in Model.FootballNoteUnits)
 {
     <div class="media">
-        <p class="mr-3">
-            <img src="~/images/icon_user_@((random+unit.ParentNote.Editor.CreateUser.UserId)%numIcon).png">
+        <p class="mr-2">
+            <img src="~/images/icon_user_@((random+unit.ParentNote.Editor.CreateUser.UserId)%numIcon).png" width="40rem" height="40rem">
             <span class="text-center d-block">@unit.ParentNote.Editor.CreateUser.UserName.DisplayName</span>
         </p>
         <div class="media-body">
@@ -33,13 +33,12 @@
             @foreach (var note in unit.ChildrenNotes)
             {
                 <hr />
-                <div class="media mt-2">
-                    <p class="mr-3">
-                        <img src="~/images/icon_user_@((random+note.Editor.CreateUser.UserId)%numIcon).png">
-                        <span class="text-center d-block">@note.Editor.CreateUser.UserName.DisplayName</span>
-                    </p>
+                <div class="media">
+
                     <div class="media-body">
-                        @Html.Raw(note.Context.Text.Replace("\r\n", "<br />").Replace("<iframe", "<div class=\"youtube\"><iframe").Replace("</iframe>", "</iframe></div>"))
+                        <img src="~/images/icon_user_@((random+note.Editor.CreateUser.UserId)%numIcon).png" class="mr-1" width="25rem" height="25rem" >
+                        @note.Editor.CreateUser.UserName.DisplayName / @@@note.Editor.CreateUser.LoginId / @note.Editor.CreateDate.ToString("yyyy-MM-dd HH:mm")                      
+                        <div class="text-left">@Html.Raw(note.Context.Text.Replace("\r\n", "<br />").Replace("<iframe", "<div class=\"youtube\"><iframe").Replace("</iframe>", "</iframe></div>"))</div>
                         <div class="text-right">
                             @note.Editor.Display
                             <a asp-page="./Delete" asp-route-id="@note.NoteId"><img class="ml-3" src="~/images/icon_delete.png"></a>

@@ -9,6 +9,7 @@ namespace IssWebRazorApp.Models
     {
         Owner,
         Admin,
-        Member
+        Member,
+        Guest
     }
 }

@@ -31,6 +31,9 @@ namespace IssWebRazorApp.Models
                 File = null;
                 return;
             }
+            if (file.Length / 1000 >= 500) 
+            {
+            }
 
             FileName = CreateFileName(playName, fileExtension);
             File = file;

@@ -1,0 +1,48 @@
+﻿@page
+@model IssWebRazorApp.ScheduleAnswers.CreateModel
+
+<h4>ScheduleAnswerData</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ScheduleAnswerData.ScheduleId" class="control-label"></label>
+                <input asp-for="ScheduleAnswerData.ScheduleId" class="form-control" />
+                <span asp-validation-for="ScheduleAnswerData.ScheduleId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleAnswerData.UserId" class="control-label"></label>
+                <input asp-for="ScheduleAnswerData.UserId" class="form-control" />
+                <span asp-validation-for="ScheduleAnswerData.UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleAnswerData.Answer" class="control-label"></label>
+                <input asp-for="ScheduleAnswerData.Answer" class="form-control" />
+                <span asp-validation-for="ScheduleAnswerData.Answer" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleAnswerData.CreateDate" class="control-label"></label>
+                <input asp-for="ScheduleAnswerData.CreateDate" class="form-control" />
+                <span asp-validation-for="ScheduleAnswerData.CreateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ScheduleAnswerData.LastUpdateDate" class="control-label"></label>
+                <input asp-for="ScheduleAnswerData.LastUpdateDate" class="form-control" />
+                <span asp-validation-for="ScheduleAnswerData.LastUpdateDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

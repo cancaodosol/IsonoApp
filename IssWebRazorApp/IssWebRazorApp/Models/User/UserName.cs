@@ -32,9 +32,9 @@ namespace IssWebRazorApp.Models
 
                 var name = value.Trim();
                 //文字数チェック
-                if (Enc.GetByteCount(name) > 30)
+                if (Enc.GetByteCount(name) > 7)
                 {
-                    throw new ISSModelException(nameof(UserName), nameof(DisplayName), "UNDPNME002", "表示名は半角30文字以下である必要があります。");
+                    throw new ISSModelException(nameof(UserName), nameof(DisplayName), "UNDPNME002", "表示名は半角7文字以下である必要があります。");
                 }
 
                 _DisplayName = name;

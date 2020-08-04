@@ -17,7 +17,7 @@ namespace IssWebRazorApp.Playbooks
 {
     public class CreateModel : PageModel
     {
-        private readonly IPlaybookRepository _playbookRepository;
+        private readonly IPlaybookService _playbookService;
         private readonly SessionService _sessionService;
         public User LoginUser;
         public SelectList CaterogyList;
@@ -25,8 +25,8 @@ namespace IssWebRazorApp.Playbooks
 
         public CreateModel(IPlaybookRepository playbookRepository)
         {
-            _playbookRepository = playbookRepository;
-            IList<Category> categories = _playbookRepository.GetCategoryList("Offense");
+            _playbookService = new PlaybookService(playbookRepository);
+            IList<Category> categories = _playbookService.GetCategoryList("Offense");
             _sessionService = new SessionService();
             CaterogyList = new SelectList(categories,"Code","Name");
             StatusList = InstallSatusService.GetSelectList();
@@ -35,7 +35,7 @@ namespace IssWebRazorApp.Playbooks
 
         public IActionResult OnGet()
         {
-            LoginUser = (User)_sessionService.Get(HttpContext, "LoginUser");
+            LoginUser = _sessionService.GetLoginUser(HttpContext);
             if (LoginUser == null) return RedirectToPage("/Login");
             PlaybookData.IntroduceStatus = ((int)InstallStatus.Want_Instoll).ToString();
             return Page();
@@ -58,9 +58,9 @@ namespace IssWebRazorApp.Playbooks
             try
             {
                 var sessionService = new SessionService();
-                var createUser = (User)sessionService.ToObject(HttpContext.Session.Get("LoginUser"));
+                var createUser = _sessionService.GetLoginUser(HttpContext);
                 var playbook = new Playbook(PlaybookData, PlayDesignFile, createUser);
-                _playbookRepository.Add(playbook, "Offense");
+                _playbookService.Add(playbook);
             }
             catch (ISSModelException ex) 
             {

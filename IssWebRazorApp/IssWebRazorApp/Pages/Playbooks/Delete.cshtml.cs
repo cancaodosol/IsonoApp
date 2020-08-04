@@ -6,16 +6,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using IssWebRazorApp.Data;
+using IssWebRazorApp.Models.Common;
+using IssWebRazorApp.Models;
 
 namespace IssWebRazorApp.Playbooks
 {
     public class DeleteModel : PageModel
     {
         private readonly IssWebRazorApp.Data.IssWebRazorAppContext _context;
+        private readonly SessionService _sessionService;
+        public User LoginUser;
 
         public DeleteModel(IssWebRazorApp.Data.IssWebRazorAppContext context)
         {
             _context = context;
+            _sessionService = new SessionService();
         }
 
         [BindProperty]
@@ -23,6 +28,9 @@ namespace IssWebRazorApp.Playbooks
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+            LoginUser = _sessionService.GetLoginUser(HttpContext);
+            if (LoginUser == null) return RedirectToPage("/Login");
+
             if (id == null)
             {
                 return NotFound();
@@ -39,6 +47,9 @@ namespace IssWebRazorApp.Playbooks
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
+            LoginUser = _sessionService.GetLoginUser(HttpContext);
+            if (LoginUser == null) return RedirectToPage("/Login");
+
             if (id == null)
             {
                 return NotFound();

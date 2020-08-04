@@ -21,30 +21,35 @@ namespace IssWebRazorApp.Data
         public string PlayShortName { get; set; }
         public string PlayCallName { get; set; }
         public string Category { get; set; }
+        [ForeignKey("Category")]
+        public CategoryData CategoryData { get; set; }
         [Display(Name ="Status")]
         public string IntroduceStatus { get; set; }
         public string PlayDesignUrl { get; set; }
         public string Context { get; set; }
         public int CreateUserId { get; set; }
+        [ForeignKey("CreateUserId")]
+        public UserData CreateUserData { get; set; }
         [DataType(DataType.Date)]
         public DateTime CreateDate { get; set; }
         public int LastUpdateUserId { get; set; }
+        [ForeignKey("LastUpdateUserId")]
+        public UserData LastUpdateUserData { get; set; }
         [DataType(DataType.Date)]
         public DateTime LastUpdateDate { get; set; }
 
-        public Playbook ToModel(IList<Category> categories) 
+        public Playbook ToModel() 
         {
             Playbook playbook = new Playbook(PlaybookSystemId);
 
             playbook.ChangePlaybookId(PlaybookId);
-            var category = categories.FirstOrDefault(m => m.Code.Equals(Category));
-            playbook.ChangeCategory(category != null ? category : new Models.Category("0000"));
+            playbook.ChangeCategory(CategoryData != null ? CategoryData.ToModel() : new Models.Category("0000"));
             playbook.ChangePlayName(new PlayName(PlayFullName,PlayShortName,PlayCallName));
             playbook.ChangeContext(new Context(Context));
             playbook.ChangeInstallStatus(IntroduceStatus);
             playbook.ChangePlayDesign(new PlayDesign(PlayDesignUrl));
-            playbook.ChangeCreateUser(new User(CreateUserId,71), CreateDate);
-            playbook.ChangeLastUpdateUser(new User(CreateUserId,71),LastUpdateDate);
+            playbook.ChangeCreateUser(CreateUserData != null ? CreateUserData.ToModel() : new User(0,0), CreateDate);
+            playbook.ChangeLastUpdateUser(LastUpdateUserData != null ? LastUpdateUserData.ToModel() : new User(0, 0), LastUpdateDate);
 
             return playbook;
         }

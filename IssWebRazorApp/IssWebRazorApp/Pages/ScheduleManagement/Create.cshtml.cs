@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using IssWebRazorApp.Data;
-using IssWebRazorApp.Models.Schedule;
+using IssWebRazorApp.Models;
 
 namespace IssWebRazorApp.ScheduleManagement
 {

@@ -14,11 +14,11 @@ namespace IssWebRazorApp.Models
         {
             _context = context;            
         }
-        public User Find(string loginId) 
+        public UserData Find(string loginId) 
         {
             if (String.IsNullOrEmpty(loginId)) return null;
             var data = _context.UserData.Include(u => u.PositionData).FirstOrDefault(m => m.LoginId.Equals(loginId));
-            return data.ToModel();
+            return data;
         }
         public UserData Find(int userId)
         {
@@ -28,6 +28,16 @@ namespace IssWebRazorApp.Models
         public List<UserData> FindAll()
         {
             return _context.UserData.Include(u => u.PositionData).ToList<UserData>();            
+        }
+        public async Task AddAsync(UserData data) 
+        {
+            _context.UserData.Add(data);
+            await _context.SaveChangesAsync();
+        }
+        public List<PositionData> GetPotision() 
+        {
+            var datas = _context.PositionData.ToList();
+            return datas;
         }
     }
 }

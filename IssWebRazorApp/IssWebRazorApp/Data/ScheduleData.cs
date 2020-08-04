@@ -1,5 +1,4 @@
 ﻿using IssWebRazorApp.Models;
-using IssWebRazorApp.Models.Schedule;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

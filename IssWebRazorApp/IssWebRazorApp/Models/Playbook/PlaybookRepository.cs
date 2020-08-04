@@ -33,25 +33,25 @@ namespace IssWebRazorApp.Models
             accesskey = _awsconfig.S3AccessKey;
             secretkey = _awsconfig.S3SecretKey;
         }
-        public Playbook Find(int id)
+        public PlaybookData Find(int id)
         {
-            PlaybookData data = _context.PlaybookData.AsNoTracking().FirstOrDefault(m => m.PlaybookSystemId == id);
-            IList<Category> categories = GetCategoryList("Offense");
-            return data.ToModel(categories);
+            PlaybookData data = _context.PlaybookData.Include(_ => _.CreateUserData).Include(__ => __.LastUpdateUserData).AsNoTracking().FirstOrDefault(m => m.PlaybookSystemId == id);
+            data.CategoryData = _context.CategoryData.FirstOrDefault(_ => _.Code == data.Category);
+            return data;
         }
 
-        public IList<Playbook> FindAll() 
+        public IList<PlaybookData> FindAll() 
         {
-            IList<PlaybookData> datas = _context.PlaybookData.OrderBy(m => m.Category).ToList();
-            IList<Category> categories = GetCategoryList("Offense");
-            IList<Playbook> playbooks = new List<Playbook>();
+            //Userが未登録の時、そのレコードは除去される。inner joinと同じっぽい。
+            IList<PlaybookData> datas = _context.PlaybookData.Include(_ => _.CreateUserData).Include(__ => __.LastUpdateUserData).AsNoTracking().ToList<PlaybookData>();
+            IList<CategoryData> categories = _context.CategoryData.ToList<CategoryData>(); ;
 
             foreach (var data in datas) 
             {
-                playbooks.Add(data.ToModel(categories));
+                data.CategoryData = categories.FirstOrDefault(_ => _.Code == data.Category);
             }
 
-            return playbooks;
+            return datas;
         }
 
         /// <summary>
@@ -60,15 +60,8 @@ namespace IssWebRazorApp.Models
         /// <remarks>プレイデザイン画像があった場合、AWS S3に保存される。</remarks>
         /// <param name="playbook"></param>
         /// <param name="bucketPath"></param>
-        public async void Add(Playbook playbook, string bucketPath)
+        public async Task Add(PlaybookData data)
         {
-            var data = playbook.ToData();
-
-            if (playbook.PlayDesign.File != null)
-            {
-                UploadFileToS3Bucket(playbook.PlayDesign, bucketPath);
-                data.PlayDesignUrl = s3Directory + bucketPath + "/" + playbook.PlayDesign.FileName;
-            }
             _context.PlaybookData.Add(data);
             await _context.SaveChangesAsync();
         }
@@ -81,8 +74,9 @@ namespace IssWebRazorApp.Models
         private readonly string accesskey;
         private readonly string secretkey;
 
-        private void UploadFileToS3Bucket(PlayDesign playDesign, string buckectPath)
+        public void UploadFileToS3Bucket(PlayDesign playDesign, string bucketPath , out string uploadFilePath)
         {
+            uploadFilePath = "";
             var file = playDesign.File;
             try
             {
@@ -98,7 +92,7 @@ namespace IssWebRazorApp.Models
 
                     var fileTransferUtilityRequest = new TransferUtilityUploadRequest
                     {
-                        BucketName = bucketName + "/" + buckectPath,
+                        BucketName = bucketName + "/" + bucketPath,
                         FilePath = filePath,
                         StorageClass = S3StorageClass.Standard,
                         PartSize = 6291456,// 6 MB
@@ -109,26 +103,21 @@ namespace IssWebRazorApp.Models
                     fileTransferUtility.Upload(fileTransferUtilityRequest);
                     fileTransferUtility.Dispose();
                     File.Delete(filePath);
+                    uploadFilePath = s3Directory + bucketPath;
                 }
             }
             catch (AmazonS3Exception amazonS3Exception)
             {
-                throw new ISSServiceException("AmazonS3への画像アップロードに失敗しました。",amazonS3Exception);
+                throw new ISSRepositoryException("AmazonS3への画像アップロードに失敗しました。",amazonS3Exception);
             }
         }
 
-        public async void Edit(Playbook playbook, string bucketPath)
+        public async Task Edit(PlaybookData data)
         {
-            var data = playbook.ToData();
             _context.Attach(data).State = EntityState.Modified;
 
             try
             {
-                if (playbook.PlayDesign.File != null)
-                {
-                    UploadFileToS3Bucket(playbook.PlayDesign, bucketPath);
-                    data.PlayDesignUrl = s3Directory + bucketPath + "/" + playbook.PlayDesign.FileName;
-                }
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException ex)
@@ -136,17 +125,10 @@ namespace IssWebRazorApp.Models
                 throw new ISSRepositoryException("Playbookのデータベースへの更新処理でエラーが発生しました。", ex);
             }
         }
-
-        public IList<Category> GetCategoryList(String session){
-            IList<CategoryData> data = _context.CategoryData.Where(m => m.Session.Equals(session)).OrderBy(m => m.Code).ToList();
-            IList<Category> categories = new List<Category>();
-
-            foreach (var item in data) 
-            {
-                categories.Add(new Category(item.Code,item.Session,item.Name));
-            }
-
-            return categories;
+        public List<CategoryData> GetCategoryDataList(string session) 
+        {
+            var datas = _context.CategoryData.Where(_ => _.Session.Equals(session)).ToList<CategoryData>();
+            return datas;
         }
     }
 }

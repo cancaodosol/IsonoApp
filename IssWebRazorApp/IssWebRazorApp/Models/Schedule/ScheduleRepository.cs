@@ -1,10 +1,11 @@
-﻿using System;
+﻿using IssWebRazorApp.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace IssWebRazorApp.Models.Schedule
+namespace IssWebRazorApp.Models
 {
     public class ScheduleRepository : IScheduleRepository
     {
@@ -14,16 +15,22 @@ namespace IssWebRazorApp.Models.Schedule
         {
             _context = context;
         }
-        public IList<Schedule> FindAll()
+        public IList<ScheduleData> FindAll()
         {
             var datas = _context.ScheduleData.ToList();
-            IList<Schedule> schedules = new List<Schedule>();
-            foreach (var item in datas)
-            {
-                var schedule = item.ToModel();
-                schedules.Add(schedule);
-            }
-            return schedules;
+            return datas;
+        }
+
+        public IList<ScheduleData> FindRecently(int day)
+        {
+            var datas = _context.ScheduleData.Where(_ => _.StartDate >= DateTime.Now.AddDays(-1 * day)).ToList();
+            return datas;
+        }
+
+        public IList<ScheduleAnswerData> GetScheduleAnswers(int scheduleId) 
+        {
+            var datas = _context.ScheduleAnswerData.Where(_ => _.ScheduleId == scheduleId).ToList();
+            return datas;
         }
     }
 }

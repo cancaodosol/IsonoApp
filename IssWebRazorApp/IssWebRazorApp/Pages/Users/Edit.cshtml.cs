@@ -7,20 +7,26 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IssWebRazorApp.Data;
+using IssWebRazorApp.Models.Common;
+using IssWebRazorApp.Models;
 
 namespace IssWebRazorApp.Users
 {
     public class EditModel : PageModel
     {
         private readonly IssWebRazorApp.Data.IssWebRazorAppContext _context;
+        private readonly SessionService _sessionService;
+        public User LoginUser;
 
         public EditModel(IssWebRazorApp.Data.IssWebRazorAppContext context)
         {
             _context = context;
+            _sessionService = new SessionService();
         }
 
         [BindProperty]
         public UserData UserData { get; set; }
+        public SelectList PositionDatas { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -29,6 +35,13 @@ namespace IssWebRazorApp.Users
                 return NotFound();
             }
 
+
+            LoginUser = _sessionService.GetLoginUser(HttpContext);
+            if (LoginUser == null) return RedirectToPage("/Login");
+            if (!(LoginUser.SystemRole.Equals(SystemRole.Admin.ToString())
+                ||LoginUser.SystemRole.Equals(SystemRole.Owner.ToString()))) return RedirectToPage("/Users");
+
+
             UserData = await _context.UserData
                 .Include(u => u.PositionData).FirstOrDefaultAsync(m => m.UserId == id);
 
@@ -36,7 +49,7 @@ namespace IssWebRazorApp.Users
             {
                 return NotFound();
             }
-           ViewData["PositionId"] = new SelectList(_context.PositionData, "PositionId", "PositionFullName");
+           PositionDatas = new SelectList(_context.PositionData, "PositionId", "FullName");
             return Page();
         }
 

@@ -20,5 +20,10 @@ namespace IssWebRazorApp.Data
         public DbSet<IssWebRazorApp.Data.PositionData> PositionData { get; set; }
         public DbSet<IssWebRazorApp.Data.UserData> UserData { get; set; }
         public DbSet<IssWebRazorApp.Data.FootballNoteData> FootballNoteData { get; set; }
+        public DbSet<IssWebRazorApp.Data.ScheduleAnswerData> ScheduleAnswerData { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder) 
+        {
+            modelBuilder.Entity<ScheduleAnswerData>().HasKey(_ => new { _.ScheduleId, _.UserId });
+        }
     }
 }

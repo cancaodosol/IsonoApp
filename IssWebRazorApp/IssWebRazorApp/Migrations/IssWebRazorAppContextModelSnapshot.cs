@@ -18,12 +18,11 @@ namespace IssWebRazorApp.Migrations
 
             modelBuilder.Entity("IssWebRazorApp.Data.CategoryData", b =>
                 {
-                    b.Property<int>("CategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Code")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -31,7 +30,7 @@ namespace IssWebRazorApp.Migrations
                     b.Property<string>("Session")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("CategoryId");
+                    b.HasKey("Code");
 
                     b.ToTable("Categories");
                 });
@@ -82,6 +81,10 @@ namespace IssWebRazorApp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("NoteId");
+
+                    b.HasIndex("CreateUserId");
+
+                    b.HasIndex("LastUpdateUserId");
 
                     b.ToTable("FootballNotes");
                 });
@@ -136,6 +139,12 @@ namespace IssWebRazorApp.Migrations
 
                     b.HasKey("PlaybookSystemId");
 
+                    b.HasIndex("Category");
+
+                    b.HasIndex("CreateUserId");
+
+                    b.HasIndex("LastUpdateUserId");
+
                     b.ToTable("Playbooks");
                 });
 
@@ -157,6 +166,31 @@ namespace IssWebRazorApp.Migrations
                     b.HasKey("PositionId");
 
                     b.ToTable("Positions");
+                });
+
+            modelBuilder.Entity("IssWebRazorApp.Data.ScheduleAnswerData", b =>
+                {
+                    b.Property<int>("ScheduleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Answer")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ScheduleId", "UserId");
+
+                    b.ToTable("ScheduleAnswers");
                 });
 
             modelBuilder.Entity("IssWebRazorApp.Data.ScheduleData", b =>
@@ -241,6 +275,40 @@ namespace IssWebRazorApp.Migrations
                     b.HasIndex("PositionId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("IssWebRazorApp.Data.FootballNoteData", b =>
+                {
+                    b.HasOne("IssWebRazorApp.Data.UserData", "CreateUserData")
+                        .WithMany()
+                        .HasForeignKey("CreateUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IssWebRazorApp.Data.UserData", "LastUpdateUserData")
+                        .WithMany()
+                        .HasForeignKey("LastUpdateUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IssWebRazorApp.Data.PlaybookData", b =>
+                {
+                    b.HasOne("IssWebRazorApp.Data.CategoryData", "CategoryData")
+                        .WithMany()
+                        .HasForeignKey("Category");
+
+                    b.HasOne("IssWebRazorApp.Data.UserData", "CreateUserData")
+                        .WithMany()
+                        .HasForeignKey("CreateUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IssWebRazorApp.Data.UserData", "LastUpdateUserData")
+                        .WithMany()
+                        .HasForeignKey("LastUpdateUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("IssWebRazorApp.Data.UserData", b =>
