@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using IssWebRazorApp.Data;
 using IssWebRazorApp.Models.Common;
 using IssWebRazorApp.Models;
+using IssWebRazorApp.Models.LINENotify;
 
 namespace IssWebRazorApp.ScheduleAnswers
 {
@@ -16,6 +17,7 @@ namespace IssWebRazorApp.ScheduleAnswers
     {
         private readonly IssWebRazorApp.Data.IssWebRazorAppContext _context;
         private readonly SessionService _sessionService;
+        private readonly LINENotifyService _lineNotifyService;
         public User LoginUser;
         public SelectList AnswerList { get; set; }
 
@@ -23,6 +25,7 @@ namespace IssWebRazorApp.ScheduleAnswers
         {
             _context = context;
             _sessionService = new SessionService();
+            _lineNotifyService = new LINENotifyService();
             var items = new Dictionary<string, string> { { "参加", "OK" }, { "欠席", "NG" }, { "保留", "HOLD" } };
             AnswerList = new SelectList(items, "Value", "Key");
         }
@@ -67,16 +70,25 @@ namespace IssWebRazorApp.ScheduleAnswers
             _context.Attach(ScheduleAnswerData).State = EntityState.Modified;
             ScheduleAnswerData.LastUpdateDate = DateTime.Now;
 
+            var data = this.ScheduleAnswerData;
+            var schedule = _context.ScheduleData.Find(ScheduleAnswerData.ScheduleId);
+
             try
             {
                 if (!ScheduleAnswerDataExists(ScheduleAnswerData.ScheduleId, LoginUser.UserId))
                 {
                     _context.Add(ScheduleAnswerData);
                     await _context.SaveChangesAsync();
+                    var message = "【スケジュール回答】\nスケジュール："+schedule.StartDate.ToString("MM/dd")+":"+schedule.Title+"\n" 
+                        + LoginUser.UserName.NameKanji +" は、" + data.Answer + "と回答しました。\nコメント：" + data.Comment;
+                    _lineNotifyService.SendMessage(message);
                 }
                 else
                 {
                     await _context.SaveChangesAsync();
+                    var message = "【スケジュール回答】\nスケジュール：" + schedule.StartDate.ToString("MM/dd") + ":" + schedule.Title + "\n"
+                        + LoginUser.UserName.NameKanji + " は、" + data.Answer + "に変更しました。\nコメント：" + data.Comment;
+                    _lineNotifyService.SendMessage(message);
                 }
             }
             catch (DbUpdateConcurrencyException)

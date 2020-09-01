@@ -44,6 +44,7 @@ namespace IssWebRazorApp
             //AWS Configファイル読み込みの為
             services.AddOptions();
             services.Configure<AmazonWebServiceConfig>(Configuration.GetSection(nameof(AmazonWebServiceConfig)));
+            services.Configure<LINENotifyServiceConfig>(Configuration.GetSection(nameof(LINENotifyServiceConfig)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -29,7 +29,7 @@ namespace IssWebRazorApp.Pages
         {
             LoginUser = _sessionService.GetLoginUser(HttpContext);
             var userId = LoginUser != null ? LoginUser.UserId : -1;
-            schedules = _scheduleService.FindRecentry(30,userId).OrderBy(m => m.StartDate).ToList<Schedule>();
+            schedules = _scheduleService.FindRecentry(1,userId).OrderBy(m => m.StartDate).ToList<Schedule>();
             foreach (var schedule in schedules)
             {
                 schedule.SortAnswersByUserPosition();

@@ -15,10 +15,10 @@
             <caption>活動スケジュール</caption>
             <thead>
                 <tr>
-                    <th width="100px">
+                    <th>
                         日程
                     </th>
-                    <th width="150px">
+                    <th>
                         タイトル
                     </th>
                     <th>
@@ -27,92 +27,139 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var schedule in Model.schedules)
+                @for (int i = 0; i < Model.schedules.Count; i++)
                 {
                     <tr>
                         <td>
-                            @schedule.EventDate
+                            @Model.schedules[i].EventDate
                         </td>
                         <td>
-                            @schedule.Title
+                            @Model.schedules[i].Title
                         </td>
                         <td>
-                            @schedule.Place.Name
+                            @Model.schedules[i].Place.Name
                         </td>
                     </tr>
                     <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:dashed none none none;">
                         <td class="text-right">練習連絡 </td>
-                        <td class="text-left" colspan="2"><pre>@schedule.Context.Text</pre></td>
+                        <td class="text-left" colspan="2">
+                            <pre>@Model.schedules[i].Context.Text</pre>
+                            <button type="button" class="btn btn-info mt-3" id="schedules_answer_@i">回答状況を表示</button>
+                            <div id="schedules_answer_hide_@i" style="display:none;">
+                                <div class="box30">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th width="100px">
+
+                                                </th>
+                                                <th width="150px">
+
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="text-left">
+                                            @for (int j = 0; j < Model.schedules[i].OKAnswers.Count; j++)
+                                            {
+                                                if (j == 0)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" colspan="2" height="32px" style="font-size:1.0rem; padding:0rem;">
+                                                            <strong>参加 <img src="~/images/icon_answer_ok.png"> (@Model.schedules[i].OKAnswers.Count)</strong>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+                                                <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:none;">
+
+                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
+                                                        @Model.schedules[i].OKAnswers[j].User.Position.ShortName @Model.schedules[i].OKAnswers[j].User.UserName.NameKanji
+                                                    </td>
+                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
+                                                        @Model.schedules[i].OKAnswers[j].Comment
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                            @for (int j = 0; j < Model.schedules[i].NGAnswers.Count; j++)
+                                            {
+                                                @if (j == 0)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" colspan="2" height="32px" style="font-size:1.0rem; padding:0rem;">
+                                                            <strong>欠席 <img src="~/images/icon_answer_ng.png"> (@Model.schedules[i].NGAnswers.Count)</strong>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:none;">
+                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
+                                                        @Model.schedules[i].NGAnswers[j].User.Position.ShortName @Model.schedules[i].NGAnswers[j].User.UserName.NameKanji
+                                                    </td>
+                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
+                                                        @Model.schedules[i].NGAnswers[j].Comment
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                            @for (int j = 0; j < Model.schedules[i].HOLDAnswers.Count; j++)
+                                            {
+                                                @if (j == 0)
+                                                {
+                                                    <tr>
+                                                        <td class="text-center" colspan="2" height="32px" style="font-size:1.0rem; padding:0rem;">
+                                                            <strong>保留 <img src="~/images/icon_answer_hold.png"> (@Model.schedules[i].HOLDAnswers.Count)</strong>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                                <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:none;">
+                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
+                                                        @Model.schedules[i].HOLDAnswers[j].User.Position.ShortName @Model.schedules[i].HOLDAnswers[j].User.UserName.NameKanji
+                                                    </td>
+                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
+                                                        @Model.schedules[i].HOLDAnswers[j].Comment
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
-                    @for (int i = 0; i < schedule.OKAnswers.Count; i++)
-                    {
-                        <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:none;">
-                            <td class="text-right" height="32px" style="font-size:1.0rem; padding:0rem;">
-                                @if (i == 0)
-                                {
-                                    <div>参加 <img src="~/images/icon_answer_ok.png"></div>
-                                }
-                            </td>
-                            <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                @schedule.OKAnswers[i].User.Position.ShortName @schedule.OKAnswers[i].User.UserName.NameKanji
-                            </td>
-                            <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                @schedule.OKAnswers[i].Comment
-                            </td>
-                        </tr>
-                    }
-
-                    @for (int i = 0; i < schedule.NGAnswers.Count; i++)
-                    {
-                        <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:none;">
-                            <td class="text-right" height="32px" style="font-size:1.0rem; padding:0rem;">
-                                @if (i == 0)
-                                {
-                                    <div>欠席 <img src="~/images/icon_answer_ng.png"></div>
-                                }
-                            </td>
-                            <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                @schedule.NGAnswers[i].User.Position.ShortName @schedule.NGAnswers[i].User.UserName.NameKanji
-                            </td>
-                            <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                @schedule.NGAnswers[i].Comment
-                            </td>
-                        </tr>
-                    }
-
-                    @for (int i = 0; i < schedule.HOLDAnswers.Count; i++)
-                    {
-                        <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:none;">
-                            <td class="text-right" height="32px" style="font-size:1.0rem; padding:0rem;">
-                                @if (i == 0)
-                                {
-                                    <div>保留 <img src="~/images/icon_answer_hold.png"></div>
-                                }
-                            </td>
-                            <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                @schedule.HOLDAnswers[i].User.Position.ShortName @schedule.HOLDAnswers[i].User.UserName.NameKanji
-                            </td>
-                            <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                @schedule.HOLDAnswers[i].Comment
-                            </td>
-                        </tr>
-                    }
 
                     <tr>
                         <td class="text-right" colspan="3" height="32px" style="font-size:1.2rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:dashed none solid none;">
 
-                            <img src="~/images/icon_answer_ok.png"> @schedule.OKAnswers.Count
-                            <img src="~/images/icon_answer_ng.png"> @schedule.NGAnswers.Count
-                            <img src="~/images/icon_answer_hold.png"> @schedule.HOLDAnswers.Count
-                            <a asp-page="/ScheduleAnswers/Edit" asp-route-id="@schedule.ScheduleId">
+                            <img src="~/images/icon_answer_ok.png"> @Model.schedules[i].OKAnswers.Count
+                            <img src="~/images/icon_answer_ng.png"> @Model.schedules[i].NGAnswers.Count
+                            <img src="~/images/icon_answer_hold.png"> @Model.schedules[i].HOLDAnswers.Count
+                            <a asp-page="/ScheduleAnswers/Edit" asp-route-id="@Model.schedules[i].ScheduleId">
                                 [回答：<img src="~/images/icon_replay_16px.png">]
                             </a>
                         </td>
                     </tr>
+
+
+
                 }
                 <tr>
                     <td colspan="3" class="text-right"><a asp-page="./ScheduleManagement/Index">スケジュール編集用ページ</a></td>
                 </tr>
             </tbody>
         </table>
+        <script type="text/javascript">
+            @for (var i = 0; i < Model.schedules.Count; i++) {
+                @Html.Raw("$('#schedules_answer_"+i+"').click(function(){"+
+                    "Swal.fire({"+                            
+                        "title: '<strong>回答状況</strong>',"+
+                        "icon: '',"+
+                        "html: $('#schedules_answer_hide_"+i+"').html(),"+
+                        "showCloseButton: true," +
+                    "})"+
+                "});");
+            }
+        </script>
     </div>
+
+
+
