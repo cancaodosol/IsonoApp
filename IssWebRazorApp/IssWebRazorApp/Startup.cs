@@ -32,7 +32,12 @@ namespace IssWebRazorApp
                     options.UseSqlite(Configuration.GetConnectionString("IssWebRazorAppContext")));
 
             //セッション機能の追加
-            services.AddSession();
+            services.AddSession(option => 
+            {
+                option.Cookie.Name = "IssApp";
+                option.IdleTimeout = TimeSpan.FromDays(10);
+                option.Cookie.IsEssential = true;
+            });
             
             //ObjectRepositoryの為
             services.AddScoped<IPlaybookRepository,PlaybookRepository>();

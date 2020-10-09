@@ -44,20 +44,16 @@
                         <td class="text-right">練習連絡 </td>
                         <td class="text-left" colspan="2">
                             <pre>@Model.schedules[i].Context.Text</pre>
-                            <button type="button" class="btn btn-info mt-3" id="schedules_answer_@i">回答状況を表示</button>
+
+                            <div class="float-right">
+                                <a asp-page="/ScheduleAnswers/Edit" asp-route-id="@Model.schedules[i].ScheduleId"><button type="button" class="btn btn-outline-info mt-1">出欠回答する</button></a>
+                                <button type="button" class="btn btn-outline-info mt-1" id="schedules_answer_@i">回答状況を表示</button>
+                            </div>
+
                             <div id="schedules_answer_hide_@i" style="display:none;">
                                 <div class="box30">
                                     <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th width="100px">
-
-                                                </th>
-                                                <th width="150px">
-
-                                                </th>
-                                            </tr>
-                                        </thead>
+                                        <thead><tr><th width="100px" height="0px"></th><th width="150px" height="0px"></th></tr></thead>
                                         <tbody class="text-left">
                                             @for (int j = 0; j < Model.schedules[i].OKAnswers.Count; j++)
                                             {
@@ -126,21 +122,15 @@
                             </div>
                         </td>
                     </tr>
-
                     <tr>
                         <td class="text-right" colspan="3" height="32px" style="font-size:1.2rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:dashed none solid none;">
-
-                            <img src="~/images/icon_answer_ok.png"> @Model.schedules[i].OKAnswers.Count
-                            <img src="~/images/icon_answer_ng.png"> @Model.schedules[i].NGAnswers.Count
-                            <img src="~/images/icon_answer_hold.png"> @Model.schedules[i].HOLDAnswers.Count
-                            <a asp-page="/ScheduleAnswers/Edit" asp-route-id="@Model.schedules[i].ScheduleId">
-                                [回答：<img src="~/images/icon_replay_16px.png">]
-                            </a>
+                            <div class="mr-3">
+                                <img src="~/images/icon_answer_ok.png"> @Model.schedules[i].OKAnswers.Count
+                                <img src="~/images/icon_answer_ng.png"> @Model.schedules[i].NGAnswers.Count
+                                <img src="~/images/icon_answer_hold.png"> @Model.schedules[i].HOLDAnswers.Count
+                            </div>
                         </td>
                     </tr>
-
-
-
                 }
                 <tr>
                     <td colspan="3" class="text-right"><a asp-page="./ScheduleManagement/Index">スケジュール編集用ページ</a></td>

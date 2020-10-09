@@ -27,6 +27,7 @@ namespace IssWebRazorApp.Models.Common
         public void Set(HttpContext context, string key, Object value) 
         {
             context.Session.Set(key, ToBytes(value));
+            
         }
         public Object ToObject(Byte[] bytes) 
         {
