@@ -1,0 +1,48 @@
+.schedule-context-box tr
+{
+  height: 32px;
+  font-size:1.0rem; 
+  padding:0rem; 
+  border:2px; 
+  border-color:#dee2e6; 
+  border-style:dashed none none none;
+}
+
+.schedule-answer-box .schedule-answer-name
+{
+  width: 100px;
+  height: 0px;
+}
+
+.schedule-answer-box .schedule-answer-comment
+{
+  width: 150px;
+  height: 0px;
+}
+
+.schedule-answer-box td
+{
+  height: 32px;
+  font-size:1.0rem; 
+  padding:0rem;
+}
+
+.schedule-answer-row tr
+{
+  height:22px; 
+  font-size:1.0rem; 
+  padding:0rem; 
+  border:2px; 
+  border-color:#dee2e6; 
+  border-style:none;
+}
+
+.schedule-answer-box-footer td
+{
+  height:32px;
+  font-size:1.2rem; 
+  padding:0rem; 
+  border:2px; 
+  border-color:#dee2e6; 
+  border-style:dashed none solid none;
+}

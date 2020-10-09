@@ -4,143 +4,142 @@
 @{
     ViewData["Title"] = "Home page";
 }
+<link rel="stylesheet" href="~/css/toppage.css" />
+<div class="text-center">
+    <div class="row mb-6 text-center">
+        <img class="" style="width:100%; height:auto;" src="~/images/homepage.jpg">
+    </div>
 
-    <div class="text-center">
-        <div class="row mb-6 text-center">
-            <img class="" style="width:100%; height:auto;" src="~/images/homepage.jpg">
-        </div>
-
-        <h2 class="text-left mt-3">■活動スケジュール</h2>
-        <table class="table">
-            <caption>活動スケジュール</caption>
-            <thead>
-                <tr>
-                    <th>
-                        日程
-                    </th>
-                    <th>
-                        タイトル
-                    </th>
-                    <th>
-                        場所
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @for (int i = 0; i < Model.schedules.Count; i++)
+    <h2 class="text-left mt-3">■活動スケジュール</h2>
+    <table class="table">
+        <caption>活動スケジュール</caption>
+        <thead>
+            <tr>
+                <th>
+                    日程
+                </th>
+                <th>
+                    タイトル
+                </th>
+                <th>
+                    場所
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.schedules.Count; i++)
                 {
-                    <tr>
-                        <td>
-                            @Model.schedules[i].EventDate
-                        </td>
-                        <td>
-                            @Model.schedules[i].Title
-                        </td>
-                        <td>
-                            @Model.schedules[i].Place.Name
-                        </td>
-                    </tr>
-                    <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:dashed none none none;">
-                        <td class="text-right">練習連絡 </td>
-                        <td class="text-left" colspan="2">
-                            <pre>@Model.schedules[i].Context.Text</pre>
+            <tr>
+                <td>
+                    @Model.schedules[i].EventDate
+                </td>
+                <td>
+                    @Model.schedules[i].Title
+                </td>
+                <td>
+                    @Model.schedules[i].Place.Name
+                </td>
+            </tr>
+            <tr class="schedule-context-box">
+                <td class="text-right">練習連絡 </td>
+                <td class="text-left" colspan="2">
+                    <pre>@Model.schedules[i].Context.Text</pre>
 
-                            <div class="float-right">
-                                <a asp-page="/ScheduleAnswers/Edit" asp-route-id="@Model.schedules[i].ScheduleId"><button type="button" class="btn btn-outline-info mt-1">出欠回答する</button></a>
-                                <button type="button" class="btn btn-outline-info mt-1" id="schedules_answer_@i">回答状況を表示</button>
-                            </div>
+                    <div class="float-right">
+                        <a asp-page="/ScheduleAnswers/Edit" asp-route-id="@Model.schedules[i].ScheduleId"><button type="button" class="btn btn-outline-info mt-1">出欠回答する</button></a>
+                        <button type="button" class="btn btn-outline-info mt-1" id="schedules_answer_@i">回答状況を表示</button>
+                    </div>
 
-                            <div id="schedules_answer_hide_@i" style="display:none;">
-                                <div class="box30">
-                                    <table class="table">
-                                        <thead><tr><th width="100px" height="0px"></th><th width="150px" height="0px"></th></tr></thead>
-                                        <tbody class="text-left">
-                                            @for (int j = 0; j < Model.schedules[i].OKAnswers.Count; j++)
+                    <div id="schedules_answer_hide_@i" style="display:none;">
+                        <div class="box30">
+                            <table class="table schedule-answer-box">
+                                <thead><tr><th class="schedule-answer-name"></th><th class="schedule-answer-comment"></th></tr></thead>
+                                <tbody class="text-left">
+                                    @for (int j = 0; j < Model.schedules[i].OKAnswers.Count; j++)
                                             {
                                                 if (j == 0)
                                                 {
-                                                    <tr>
-                                                        <td class="text-center" colspan="2" height="32px" style="font-size:1.0rem; padding:0rem;">
-                                                            <strong>参加 <img src="~/images/icon_answer_ok.png"> (@Model.schedules[i].OKAnswers.Count)</strong>
-                                                        </td>
-                                                    </tr>
+                                    <tr>
+                                        <td class="text-center" colspan="2">
+                                            <strong>参加 <img src="~/images/icon_answer_ok.png"> (@Model.schedules[i].OKAnswers.Count)</strong>
+                                        </td>
+                                    </tr>
                                                 }
 
-                                                <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:none;">
-
-                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                                        @Model.schedules[i].OKAnswers[j].User.Position.ShortName @Model.schedules[i].OKAnswers[j].User.UserName.NameKanji
-                                                    </td>
-                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                                        @Model.schedules[i].OKAnswers[j].Comment
-                                                    </td>
-                                                </tr>
+                                    <tr class="schedule-answer-row">
+                                        <td>
+                                            @Model.schedules[i].OKAnswers[j].User.Position.ShortName @Model.schedules[i].OKAnswers[j].User.UserName.NameKanji
+                                        </td>
+                                        <td>
+                                            @Model.schedules[i].OKAnswers[j].Comment
+                                        </td>
+                                    </tr>
                                             }
 
-                                            @for (int j = 0; j < Model.schedules[i].NGAnswers.Count; j++)
+                                    @for (int j = 0; j < Model.schedules[i].NGAnswers.Count; j++)
                                             {
-                                                @if (j == 0)
+                                    @if (j == 0)
                                                 {
-                                                    <tr>
-                                                        <td class="text-center" colspan="2" height="32px" style="font-size:1.0rem; padding:0rem;">
-                                                            <strong>欠席 <img src="~/images/icon_answer_ng.png"> (@Model.schedules[i].NGAnswers.Count)</strong>
-                                                        </td>
-                                                    </tr>
+                                    <tr>
+                                        <td class="text-center" colspan="2">
+                                            <strong>欠席 <img src="~/images/icon_answer_ng.png"> (@Model.schedules[i].NGAnswers.Count)</strong>
+                                        </td>
+                                    </tr>
                                                 }
-                                                <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:none;">
-                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                                        @Model.schedules[i].NGAnswers[j].User.Position.ShortName @Model.schedules[i].NGAnswers[j].User.UserName.NameKanji
-                                                    </td>
-                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                                        @Model.schedules[i].NGAnswers[j].Comment
-                                                    </td>
-                                                </tr>
+                                    <tr class="schedule-answer-row">
+                                        <td>
+                                            @Model.schedules[i].NGAnswers[j].User.Position.ShortName @Model.schedules[i].NGAnswers[j].User.UserName.NameKanji
+                                        </td>
+                                        <td>
+                                            @Model.schedules[i].NGAnswers[j].Comment
+                                        </td>
+                                    </tr>
                                             }
 
-                                            @for (int j = 0; j < Model.schedules[i].HOLDAnswers.Count; j++)
+                                    @for (int j = 0; j < Model.schedules[i].HOLDAnswers.Count; j++)
                                             {
-                                                @if (j == 0)
+                                    @if (j == 0)
                                                 {
-                                                    <tr>
-                                                        <td class="text-center" colspan="2" height="32px" style="font-size:1.0rem; padding:0rem;">
-                                                            <strong>保留 <img src="~/images/icon_answer_hold.png"> (@Model.schedules[i].HOLDAnswers.Count)</strong>
-                                                        </td>
-                                                    </tr>
+                                    <tr>
+                                        <td class="text-center" colspan="2">
+                                            <strong>保留 <img src="~/images/icon_answer_hold.png"> (@Model.schedules[i].HOLDAnswers.Count)</strong>
+                                        </td>
+                                    </tr>
                                                 }
-                                                <tr height="32px" style="font-size:1.0rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:none;">
-                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                                        @Model.schedules[i].HOLDAnswers[j].User.Position.ShortName @Model.schedules[i].HOLDAnswers[j].User.UserName.NameKanji
-                                                    </td>
-                                                    <td height="32px" style="font-size:1.0rem; padding:0rem;">
-                                                        @Model.schedules[i].HOLDAnswers[j].Comment
-                                                    </td>
-                                                </tr>
+                                    <tr class="schedule-answer-row">
+                                        <td>
+                                            @Model.schedules[i].HOLDAnswers[j].User.Position.ShortName @Model.schedules[i].HOLDAnswers[j].User.UserName.NameKanji
+                                        </td>
+                                        <td>
+                                            @Model.schedules[i].HOLDAnswers[j].Comment
+                                        </td>
+                                    </tr>
                                             }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="text-right" colspan="3" height="32px" style="font-size:1.2rem; padding:0rem; border:2px; border-color:#dee2e6; border-style:dashed none solid none;">
-                            <div class="mr-3">
-                                <img src="~/images/icon_answer_ok.png"> @Model.schedules[i].OKAnswers.Count
-                                <img src="~/images/icon_answer_ng.png"> @Model.schedules[i].NGAnswers.Count
-                                <img src="~/images/icon_answer_hold.png"> @Model.schedules[i].HOLDAnswers.Count
-                            </div>
-                        </td>
-                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr class="schedule-answer-box-footer">
+                <td class="text-right" colspan="3">
+                    <div class="mr-3">
+                        <img src="~/images/icon_answer_ok.png"> @Model.schedules[i].OKAnswers.Count
+                        <img src="~/images/icon_answer_ng.png"> @Model.schedules[i].NGAnswers.Count
+                        <img src="~/images/icon_answer_hold.png"> @Model.schedules[i].HOLDAnswers.Count
+                    </div>
+                </td>
+            </tr>
                 }
-                <tr>
-                    <td colspan="3" class="text-right"><a asp-page="./ScheduleManagement/Index">スケジュール編集用ページ</a></td>
-                </tr>
-            </tbody>
-        </table>
-        <script type="text/javascript">
+            <tr>
+                <td colspan="3" class="text-right"><a asp-page="./ScheduleManagement/Index">スケジュール編集用ページ</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <script type="text/javascript">
             @for (var i = 0; i < Model.schedules.Count; i++) {
                 @Html.Raw("$('#schedules_answer_"+i+"').click(function(){"+
-                    "Swal.fire({"+                            
+                    "Swal.fire({"+
                         "title: '<strong>回答状況</strong>',"+
                         "icon: '',"+
                         "html: $('#schedules_answer_hide_"+i+"').html(),"+
@@ -148,8 +147,8 @@
                     "})"+
                 "});");
             }
-        </script>
-    </div>
+    </script>
+</div>
 
 
 
